@@ -1,4 +1,4 @@
-unit Kurs001;
+unit Kurs0001;
 
 interface
 
@@ -10,6 +10,7 @@ Const cMaxWerte = 500;
       Winkel = 1;
       Indexdatei = 'KursindexDBF.mdx';
       Haken = 'ü';
+      MeinOrt = 'Bochum-Dahlhausen';
 
 type
   TKursberechnung = class(TForm)
@@ -17,7 +18,6 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Panel1: TPanel;
-    Image2: TImage;
     StaticText1: TStaticText;
     Tabelle: TDBGrid;
     MainMenu1: TMainMenu;
@@ -50,6 +50,7 @@ type
     Schlieen1: TMenuItem;
     Kopierer: TBatchMove;
     Kopierte: TTable;
+    Image2: TImage;
     procedure TabelleCellClick(Column: TColumn);
     procedure Drucken1Click(Sender: TObject);
     procedure Beenden1Click(Sender: TObject);
@@ -72,11 +73,12 @@ type
     procedure Schlieen1Click(Sender: TObject);
     procedure OrteAfterClose(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     Doppelklick: Boolean;
     Spaltenummer: Integer;
   public
-    AktuOrt: String;
+    AktuOrt, AltesVerzeichnis: String;
   end;
 
 var
@@ -245,7 +247,7 @@ With Tbl Do
           Add('Breite', ftString, 100, False);
           Add('Laenge', ftString, 100, False);
           Add('Land', ftString, 100, False);
-          Add('Besonderheit', ftString, 100, False);
+          Add('Besond', ftString, 100, False);
           Add('Lats', ftString, 10, False);
           Add('Lons', ftString, 10, False);
           Add('DLons', ftString, 10, False);
@@ -293,7 +295,7 @@ While not Kursberechnung.Orte.Eof do
                         Pruefe(Kursberechnung.Orte.FieldbyName('Breite').asString),
                         Pruefe(Kursberechnung.Orte.FieldbyName('Laenge').asString),
                         Pruefe(Kursberechnung.Orte.FieldbyName('Land').asString),
-                        Pruefe(Kursberechnung.Orte.FieldbyName('Besonderheit').asString),
+                        Pruefe(Kursberechnung.Orte.FieldbyName('Besond').asString),
                         Pruefe(Kursberechnung.Orte.FieldbyName('Lats').asString),
                         Pruefe(Kursberechnung.Orte.FieldbyName('Lons').asString),
                         Pruefe(Kursberechnung.Orte.FieldbyName('DLons').asString),
@@ -304,7 +306,8 @@ While not Kursberechnung.Orte.Eof do
       Kursberechnung.Orte.Next;
       End;
 CloseFile(CsvDatei);
-Kursberechnung.Orte.Locate('Ort', AktuOrt, []);
+Kursberechnung.Orte.Locate('Ort', Kursberechnung.AktuOrt, []);
+ShowMessage('Datei erfolgreich kopiert!');
 End;
 
 Function Punkt(s: String): String;
@@ -351,6 +354,8 @@ End;
 
 procedure TKursberechnung.TabelleCellClick(Column: TColumn);
 begin
+If Orte.RecordCount = 0
+   Then Exit;
 AktuOrt:= Orte['Ort'];
 Spaltenummer:= Column.Index;
 IF (Column.Index = 0) and (Doppelklick)
@@ -360,9 +365,6 @@ IF (Column.Index = 0) and (Doppelklick)
   UrBreite.Caption:= Orte.FieldbyName('Breite').asString;
   UrLaenge.Caption:= Orte.FieldbyName('Laenge').asString;
   Kursberechnung.Kurswinkelberechnen1.Click;
-  {Orte.Edit;
-  Orte['x']:= '';
-  Orte.Post;}
   Doppelklick:= False;
   End;
 IF Column.Index = 12
@@ -391,27 +393,27 @@ end;
 procedure TKursberechnung.OrteAfterOpen(DataSet: TDataSet);
 Var i: integer;
 begin
-If not Fileexists(ExtractFilePath(Offnen.filename) + Indexdatei)
-   Then Indizeserstellen;
-//Check(DbiRegenIndexes(Kursberechnung.Orte.Handle));//Das bringt nichts!?
 Speichern1.Enabled:= True;
 Drucken1.Enabled:= True;
 Suchen1.Enabled:= True;
 If Orte.TableType = ttDbase
    Then Begin
+        If not Fileexists(AltesVerzeichnis + '\' + Indexdatei)
+           Then Indizeserstellen;
+        //Check(DbiRegenIndexes(Kursberechnung.Orte.Handle));//Das bringt nichts!?
         For i:= 1 to 16 Do
             Check(DbiRegenIndex(orte.DBHandle, nil, PChar(Orte.TableName), szDBASE,
-            PChar(IndexDatei), nil, i));//Aktualisiert den Index!!!
-        Orte.IndexFiles.Add(Indexdatei);
+                  PChar(IndexDatei), nil, i));//Aktualisiert den Index!!!
+        Orte.IndexFiles.Add({AltesVerzeichnis + '\' + }Indexdatei);
         Orte.IndexName:= 'Orti';
         Kurswinkelberechnen1.Enabled:= True;
         Windroseerstellen1.Enabled:= True;
         Filtern.Enabled:= True;
         Orteinfgen1.Enabled:= True;
         End
-   Else ShowMessage('Es können nur Tabellen vom Typ *.krs oder *.dbf sortiert werden!');
+   Else ShowMessage('Es können nur Tabellen vom Typ *.krd oder *.dbf sortiert werden!');
 Label3.Caption:= Format('Die Tabelle enthält %d Einträge', [Orte.RecordCount]);
-Orte.Locate('Ort','Dahlhausen',[]);
+Orte.Locate('Ort', MeinOrt, [loCaseInsensitive, loPartialKey]);
 UrOrt.Caption:= Orte.FieldbyName('Ort').asString;
 UrBreite.Caption:= Orte.FieldbyName('Breite').asString;
 UrLaenge.Caption:= Orte.FieldbyName('Laenge').asString;
@@ -425,7 +427,8 @@ end;
 
 procedure TKursberechnung.FormShow(Sender: TObject);
 begin
-Film.ShowModal;
+If Fileexists('Kursgleiche.avi')
+   Then Film.ShowModal;
 end;
 
 procedure TKursberechnung.Kurswinkelberechnen1Click(Sender: TObject);
@@ -434,8 +437,10 @@ Var UrBreiteR, UrLaengeR, h, n: Real;
 begin
 If UrBreite.Caption = ''
    then ShowMessage('Um die Berechnung ausführen zu können, müssen Sie erst'
-                    + ' einen Urort festlegen! Klicken Sie dazu auf einen Ort in der Tabelle doppelt.')
+                    + ' einen Urort festlegen! Klicken Sie dazu auf einen Ort in der Tabelle doppelt.'
+                    + ' Für diesen Ort müssen Koordinaten eingetragen sein!')
    Else Begin
+        Orte.IndexName:= 'Orti';
         UrBreiteR:= Umrechnen (UrBreite.Caption);
         UrLaengeR:= Umrechnen (UrLaenge.Caption);
         Orte.First;
@@ -574,7 +579,7 @@ If Orte.TableType = ttDbase
                    Then Orte.IndexName:= 'ga'
                    Else Orte.IndexName:= 'gi';
              End
-   Else ShowMessage('Es können nur Tabellen vom Typ *.krs oder *.dbf sortiert werden!');
+   Else ShowMessage('Es können nur Tabellen vom Typ *.krd oder *.dbf sortiert werden!');
 end;
 
 procedure TKursberechnung.Eingabeinfo1Click(Sender: TObject);
@@ -585,6 +590,8 @@ end;
 procedure TKursberechnung.Orteinfgen1Click(Sender: TObject);
 begin
 Eintrag.ShowModal;
+If (Eintrag.DBEdit1.Text <> '') and ((Orte.State = dsInsert) or (Orte.State = dsEdit))
+   Then Orte.Post;
 end;
 
 procedure TKursberechnung.Suchen1Click(Sender: TObject);
@@ -596,12 +603,12 @@ procedure TKursberechnung.Neu1Click(Sender: TObject);
 begin
 Speichern.Title:= 'Tabelle erstellen';
 Speichern.FilterIndex:= 1;
-Speichern.Filter:= 'Kurs Dateien (*.krs)|*.krs|Dbase  Dateien (*.dbf)|*.dbf|Alle Dateien (*.*)|*.*';
+Speichern.Filter:= 'Kurs Dateien (*.krd)|*.krd|Dbase  Dateien (*.dbf)|*.dbf|Alle Dateien (*.*)|*.*';
 If Speichern.Execute
    Then Begin
         If ExtractFileExt(Speichern.FileName) = ''
            Then If Speichern.FilterIndex = 1
-                   Then Speichern.FileName:= Speichern.FileName + '.krs'
+                   Then Speichern.FileName:= Speichern.FileName + '.krd'
                    Else Speichern.FileName:= Speichern.FileName + '.dbf';
         If Fileexists(Speichern.FileName)
            Then If MessageDlg('Die Datei existiert bereits! Datei überschreiben?',
@@ -614,54 +621,56 @@ If Speichern.Execute
 end;
 
 procedure TKursberechnung.ffnen1Click(Sender: TObject);
-Var s: String;
+Var s, t: String;
 begin
 Offnen.Title:= 'Tabelle öffnen';
-If Offnen.Execute
+t:= Orte.TableName;
+Orte.Close;
+If not Offnen.Execute
+   Then Offnen.FileName:= t;
+With Orte do
+   Begin
+   //Close;
+   Exclusive:= False;
+   Indexdefs.Clear;
+   IndexName:= '';
+   IndexFiles.Clear;
+   TableType:= ttDBase;
+   If ExtractFileExt(Offnen.FileName) = ''
+      Then Case Offnen.FilterIndex Of
+                 1: Offnen.FileName:= Offnen.FileName + '.krd';
+                 2: Offnen.FileName:= Offnen.FileName + '.dbf';
+                 3: Offnen.FileName:= Offnen.FileName + '.csv';
+                 4: Offnen.FileName:= Offnen.FileName + '.txt';
+                 5: Offnen.FileName:= Offnen.FileName + '.dbf';
+                 End;
+   If ExtractFileExt(Offnen.FileName) = '.txt'
+      Then TableType:= ttASCII;
+   End;
+If ExtractFileExt(Offnen.FileName) = '.csv'
   Then Begin
-       With Orte do
-           Begin
-           Close;
-           Exclusive:= False;
-           Indexdefs.Clear;
-           IndexName:= '';
-           IndexFiles.Clear;
-           TableType:= ttDBase;
-           If ExtractFileExt(Offnen.FileName) = ''
-              Then Case Offnen.FilterIndex Of
-                         1: Offnen.FileName:= Offnen.FileName + '.krs';
-                         2: Offnen.FileName:= Offnen.FileName + '.dbf';
-                         3: Offnen.FileName:= Offnen.FileName + '.csv';
-                         4: Offnen.FileName:= Offnen.FileName + '.txt';
-                         5: Offnen.FileName:= Offnen.FileName + '.dbf';
-                         End;
-           If ExtractFileExt(Offnen.FileName) = '.txt'
-              Then TableType:= ttASCII;
-           End;
-       If ExtractFileExt(Offnen.FileName) = '.csv'
-          Then Begin
-               ShowMessage('CSV-Dateien können nur durch Umschreiben in eine DBase-Datei geöffnet werden!');
-               s:= Offnen.FileName;
-               Delete(s, Pos('.', Offnen.FileName), 5);
-               s:= s + '.krs';
-               If FileExists(s)
-                  Then If MessageDlg('Die Datei existiert bereits! Datei überschreiben?',
-                          mtConfirmation, [mbYes, mbNo], 0) = mrNo
-                          Then Exit;
-               CSVOffnen(Offnen.FileName, s);
-               Exit;
-               End;
-       Orte.TableName:= Offnen.FileName;
-       Orte.Exclusive:= True;
-       Orte.Open;
+       ShowMessage('CSV-Dateien können nur durch Umschreiben in eine DBase-Datei geöffnet werden!');
+       s:= Offnen.FileName;
+       Delete(s, Pos('.', Offnen.FileName), 5);
+       s:= s + '.krd';
+       If FileExists(s)
+          Then If MessageDlg('Die Datei existiert bereits! Datei überschreiben?',
+                  mtConfirmation, [mbYes, mbNo], 0) = mrNo
+                  Then Exit;
+       CSVOffnen(Offnen.FileName, s);
+       Exit;
        End;
+Orte.TableName:= Offnen.FileName;
+Orte.Exclusive:= True;
+If FileExists(Orte.TableName)
+   Then Orte.Open;
 end;
 
 procedure TKursberechnung.Speichern1Click(Sender: TObject);
 Var Typ: TTableType;
 begin
 Typ:= ttDBase;
-Speichern.Filter:= 'Kurs Dateien (*.krs)|*.krs|Dbase  Dateien (*.dbf)|*.dbf|' +
+Speichern.Filter:= 'Kurs Dateien (*.krd)|*.krd|Dbase  Dateien (*.dbf)|*.dbf|' +
                    'CSV Dateien (*.csv)|*.csv|Textdateien (*.txt)|*.txt|Alle Dateien (*.*)|*.*';
 If Speichern.Execute
    Then Begin
@@ -671,7 +680,7 @@ If Speichern.Execute
            Then Typ:= ttASCII;
         If ExtractFileExt(Speichern.FileName) = ''
            Then Case Speichern.FilterIndex Of
-                     1: Speichern.FileName:= Speichern.FileName + '.krs';
+                     1: Speichern.FileName:= Speichern.FileName + '.krd';
                      2: Speichern.FileName:= Speichern.FileName + '.dbf';
                      3: Begin
                         Speichern.FileName:= Speichern.FileName + '.csv';
@@ -715,6 +724,8 @@ end;
 
 procedure TKursberechnung.OrteAfterClose(DataSet: TDataSet);
 begin
+If fileexists(AltesVerzeichnis + '\' + Indexdatei)
+   Then DeleteFile(AltesVerzeichnis + '\' + Indexdatei);
 Kursberechnung.Caption:= 'Kursberechnung';
 Label3.Caption:= '';
 Kurswinkelberechnen1.Enabled:= False;
@@ -728,12 +739,29 @@ UrOrt.Caption:= '';
 UrBreite.Caption:= '';
 UrLaenge.Caption:= '';
 Orte.Exclusive:= False;
+Orte.Indexdefs.Clear;
+Orte.IndexName:= '';
+Orte.IndexFiles.Clear;
 Orte.TableType:= ttDefault;
+Orte.TableName:= '';
 end;
 
 procedure TKursberechnung.FormCreate(Sender: TObject);
 begin
-Image2.Picture.LoadFromFile('Kursdreieck3.bmp');
+If FileExists('Kursdreieck3.bmp')
+   Then Image2.Picture.LoadFromFile('Kursdreieck3.bmp')
+   Else ShowMessage('Bilddatei Kursdreieck3.bmp fehlt!');
+TabelleErzeugen('Unbenannt.krd', ttDBase, Orte);
+AltesVerzeichnis:= GetcurrentDir;
+Orte.Exclusive:= True;
+Orte.Open;
+end;
+
+procedure TKursberechnung.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+Orte.Close;
+Kopierte.Close;
 end;
 
 End.
