@@ -1,4 +1,4 @@
-unit Kurs0007;
+unit Kurs00007;
 
 interface
 
@@ -30,11 +30,11 @@ With RichEdit1 do
      Lines.Clear;
      SelAttributes.Style := [fsBold, fsUnderline];
      SelAttributes.Size:= 10;
-     Lines.Add('Programm Kursgleiche');
+     Lines.Add('Programm Kursberechnung');
      SelAttributes.Style := [];
      SelAttributes.Size:= 8;
      Lines.Add('');
-     Lines.Add('Copyright © 4.8.2001 Roman Grothausmann, Version 3.04');
+     Lines.Add('Copyright © 6.3.2002 Roman Grothausmann, Version 4.02');
      Lines.Add('');
      Lines.Add('');
      Lines.Add('Dieses Programm berechnet den Kurswinkel vom Ursprungsort zu den'
@@ -43,12 +43,32 @@ With RichEdit1 do
               +'prungsort bewegen müsste, um am Zielort anzukommen. Um einen '
               +'Ursprungsort festzulegen, doppelklicken Sie auf einen eingetragen'
               +'en Ortsnamen in der Tabelle. Falls Sie einen neuen Ort eintrage'
-              +'n wollen, können Sie dies unter ''Bearbeiten'' ''Ort bearbeiten''. M'
-              +'it den Pfeiltasten kann man die bisherigen Einträge durchgehen. '
-              +'Die Plustaste fügt der Tabelle einen neuen leeren Datensatz ein, die Mi'
-              +'nustaste löscht ihn wieder. Die Hakentaste überträgt die neuen E'
-              +'ingaben in die Tabelle und speichert sie gleichzeitig ab, daher '
-              +'gibt es keinen Menüpunkt ''Speichern''.');
+              +'n wollen, können Sie durch einmaliges Markieren der Zelle und '
+              +'dann durch einen weiteren Mausklick oder durch Drücken der '
+              +'Eingabetaste in den Eingabemodus wechseln. '
+              +'Der Unterschied zum Doppelklick liegt in der größeren '
+              +'Zeitspanne zwischen den beiden Klicks! Zum Beenden der Eingabe '
+              +'die Eingabetaste drücken! Um eine Zeile zu löschen, '
+              +'klicken Sie mit der rechten Maustaste auf diese und wählen Sie '
+              +'''Diese Zeile löschen'', oder zum Löschen der letzten Zeile im '
+              +'Menü ''Bearbeiten'' ''Letzte Zeile löschen''. Unter ''Bearbeiten'' '
+              +'können Sie auch eine neue Zeile hinzufügen, oder direkt nach dem '
+              +'Löschen den Vorgang rückgängig machen. Zudem ist es möglich, die '
+              +'Tabelle neu durchzunummerieren, um eine eigene Reihenfolge der Zeilen '
+              +'zu erstellen. Die Zeilen können untereinander vertauscht werden. '
+              +'Die Spaltenbreite ist variierbar und durch ''Tabelle initialisieren'' '
+              +'wieder auf die ursprüngliche Einstellung rückstellbar. Die Option '
+              +'''Suchen'' ermöglicht es, einen bestimmten Eintrag in der Tabelle '
+              +'ausfindig zu machen. Dabei wird auf Groß- und Kleinschreibung '
+              +'geachtet! Das Doppelklicken auf den Ursprungsort in dem unteren '
+              +'Kasten sucht automatisch den Ursprungsort in der Tabelle. Durch '
+              +'einfaches Klicken auf einen Ort wird dieser zum aktuellen Ort. '
+              +'Das führt dazu, dass er beim Sortieren immer der oberste von den '
+              +'sichtbaren Orten ist. Man kann auch durch Klicken der rechten Maustaste '
+              +'eine Zeile zum Speicher hinzufügen und mit ''Bearbeiten'' ''Zeilen '
+              +'einfügen'' alle Zeilen aus dem Speicher am Ende der Tabelle einfügen. '
+              +'Mit ''Speicher löschen'' kann man die Zeilen aus dem Speicher wieder '
+              +'entfernen.');
      Lines.Add('');
      Lines.Add('In der ersten Spalte müssen die Namen der Orte eingegeben werden'
               +'. Die Spalte für die geographische Breite muss die Koordinaten f'
@@ -56,42 +76,37 @@ With RichEdit1 do
               +' Länge benötigt die Längenkoordinaten. Die Koordinaten können in'
               +' Grad, Minuten und Sekunden angegeben werden ( 56° 12'' 34" N ) '
               +'oder nur in Grad, Minuten oder Sekunden ( 56° N/ 3372'' N / 2023'
-              +'54" N). Wenn die Himmelsrichtung nicht angegeben wird (N/S oder '
+              +'54" N). Für die Angabe der Sekunden muss das Doppelstrichzeichen '
+              +'verwendet werden (") nicht zwei Apostrophe ('''')! '
+              +'Wenn die Himmelsrichtung nicht angegeben wird (N/S oder '
               +'O/W), dann wird für die Breite die Richtung Nord verwendet und '
               +'für die Länge Ost. Man kann deshalb auch die Koordinaten negativ'
               +' angeben, man muss dann aber vor jede Zahl ein Minuszeichen setz'
               +'en (-56°-12''-34"). Die Buchstaben N, S, O, W müssen als Großbuch'
-              +'staben eingegeben werden, sonst werden sie nicht beachtet. Die Spalten Land und Besonderheiten haben fü'
-              +'r die Berechnung keine Bedeutung.');
+              +'staben eingegeben werden, sonst werden sie nicht beachtet. Die '
+              +'Spalten "Land" und "Besonderheit" haben für'
+              +' die Berechnung keine Bedeutung.');
      Lines.Add('');
      Lines.Add('Um nach der Eingabe der Koordinaten die verschiedenen Kurswinkel'
-              +' zu berechnen, muss man unter ''Kurs'' ''Kurswinkel berechnen'''
+              +' zu berechnen, muss man unter ''Kurs'' auf ''Kurswinkel berechnen'''
               +' klicken. Die ersten beiden neuen Spalten geben die Koordinaten '
-              +'in realen Zahlen wieder, die nächste den Betrag der Differenz d'
+              +'in reellen Zahlen wieder, die nächste den Betrag der Differenz d'
               +'er Längen zum Ursprungsort, dann kommt die Distanz zwischen Ort'
               +' und Ursprungsort (in ° und km) und dann folgt der Winkel, der i'
               +'n die Richtung der kürzesten Entfernung zeigt (nur Werte von 0°'
               +'- 180°) und zuletzt der Winkel der Kursgleiche.');
      Lines.Add('');
-     Lines.Add('Die Tabelle kann man nun unter ''Datei'' ausdrucken oder kopiere'
-              +'n. Das Kopieren speichert die Datensätze der geöffneten Tabelle '
-              +'in einer neuen Datei. Es stehen vier Dateitypen zum Speichern zu'
-              +'r Verfügung. Kursdateien (*.krs), DBase-Dateien (*.dbf), CSV-Dat'
-              +'eien (*.csv) und Textdateien (*.txt). Kursdateien und DBase-Date'
-              +'ien sind vom Typ Visual dBASE7. Leider kann Excel diesen Typ nic'
-              +'ht öffnen, dafür aber die CSV- und Textdateien. CSV- und Textdatei'
-              +'en lassen sich auch mit diesem Programm öffnen und wieder in ein'
-              +'en anderen Typ kopieren. Sie können allerdings nicht sortiert we'
-              +'rden. Zum Sortieren erstellt das Programm eine von der DBase-Dat'
-              +'ei unabhängige MDX-Datei (KursindexDBF.mdx), die im selben Verze'
-              +'ichnis steht wie die Programmdatei (Kursgleiche0001.exe). Sie wird beim Schließen einer Tabelle wieder gelöscht '
-              +'und beim Öffnen neu erstellt. Durch Klicken auf einen Spa'
+     Lines.Add('Die Tabelle kann man nun unter ''Datei'' ausdrucken oder speichern. '
+              +'Die Druckvorschau hat noch eine eigene Hilfe. '
+              +'Außerdem ist es möglich, eine neue Tabelle zu erzeugen oder eine schon '
+              +'bestehende zu öffnen. Die Tabellen lassen sich entweder als Kursdatei '
+              +'(*.krs) mit allen Informationen oder als CSV-Datei (*.csv) speichern. '
+              +'Die CSV-Datei lässt sich mit der früheren BDE-Version öffnen oder mit '
+              +'MS Excel. Beide Dateiformate sind reine Textdateien um BDE-Probeleme '
+              +'zu vermeiden. Durch Klicken auf einen Spa'
               +'ltentitel kann man die gesamte Tabelle nach dieser Spalte sortie'
-              +'ren lassen. Wenn man ein weiteres Mal auf den selben Titel klick'
-              +'t, wird die Sortierung umgekehrt. Die beim Programmstart erstellte '
-              +'Kursdatei (Unbenannt.krs) wird beim nächsten Programmstart überschrieben. '
-              +'Eingetragene Daten gehen verloren, wenn sie nicht in eine andere Datei '
-              +'kopiert wurden, oder die Datei (Unbenannt.krs) vor dem nächsten Start nicht umbenannt wurde.');
+              +'ren lassen (auch die Nummern). Wenn man ein weiteres Mal auf den selben Titel klick'
+              +'t, wird die Sortierung umgekehrt.');
      Lines.Add('');
      Lines.Add('Will man eine Windrose mit Hilfe der Kurswinkel erstellen'
               +', so kann man dies mit ''Kurs'' ''Windrose erstellen''. Die'
@@ -102,8 +117,9 @@ With RichEdit1 do
               +'en, indem man in die letzte Spalte des entsprechenden Ortes klic'
               +'kt, in der der Haken ist. Wenn dann das Windrosenfenster aktivie'
               +'rt wird, werden nur die Orte gezeichnet, die einen Haken haben. '
-              +'Um alle Orte mit einem Haken zu versehen, muss man die Kurswinkel '
-              +'neu berechnen lassen. Zur graphischen Darstellung der Berechnung'
+              +'Der Ursprungsort bekommt automatisch keinen Haken! '
+              +'Um alle Orte mit einem Haken zu versehen, muss man nur auf den '
+              +'Titelhaken klicken. Zur graphischen Darstellung der Berechnung'
               +'en kann man auf das Bild im Hauptfenster klicken.');
      SelStart:= 500;
      End;

@@ -1,4 +1,4 @@
-unit Kurs0004;
+unit Kurs00004;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   ExtCtrls, Menus;
 
 type
-  TBild = class(TForm)
+  TBilder = class(TForm)
     Panel1: TPanel;
     Image1: TImage;
     Panel2: TPanel;
@@ -24,10 +24,6 @@ type
     procedure Panel3MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
-    {procedure Panel2MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Panel3MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);}
   private
     { Private declarations }
   public
@@ -35,7 +31,7 @@ type
   end;
 
 var
-  Bild: TBild;
+  Bilder: TBilder;
 
 implementation
 
@@ -43,48 +39,50 @@ implementation
 
 
 
-procedure TBild.Panel2Click(Sender: TObject);
+procedure TBilder.Panel2Click(Sender: TObject);
 begin
 Image1.Visible:= False;
 Image2.Visible:= True;
 end;
 
-procedure TBild.Panel3Click(Sender: TObject);
+procedure TBilder.Panel3Click(Sender: TObject);
 begin
 Image2.Visible:= False;
 Image1.Visible:= True;
 end;
 
-procedure TBild.Panel2MouseUp(Sender: TObject; Button: TMouseButton;
+procedure TBilder.Panel2MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 Panel2.BevelOuter:= bvRaised;
 end;
 
-procedure TBild.Panel2MouseDown(Sender: TObject; Button: TMouseButton;
+procedure TBilder.Panel2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 Panel2.BevelOuter:= bvNone;
 end;
 
-procedure TBild.Panel3MouseDown(Sender: TObject; Button: TMouseButton;
+procedure TBilder.Panel3MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 Panel3.BevelOuter:= bvNone;
 end;
 
-procedure TBild.Panel3MouseUp(Sender: TObject; Button: TMouseButton;
+procedure TBilder.Panel3MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
 Panel3.BevelOuter:= bvRaised;
 end;
 
-procedure TBild.FormCreate(Sender: TObject);
+procedure TBilder.FormCreate(Sender: TObject);
 begin
 If FileExists('Kursdreieck1.bmp')
-   Then Image1.Picture.LoadFromFile('Kursdreieck1.bmp');
+   Then Image1.Picture.LoadFromFile('Kursdreieck1.bmp')
+   Else ShowMessage('Bilddatei Kursdreieck1.bmp fehlt!');
 If FileExists('Kursdreieck2.bmp')
-   Then Image2.Picture.LoadFromFile('Kursdreieck2.bmp');
+   Then Image2.Picture.LoadFromFile('Kursdreieck2.bmp')
+   Else ShowMessage('Bilddatei Kursdreieck2.bmp fehlt!');
 end;
 
 end.

@@ -1,4 +1,4 @@
-unit Kurs0005;
+unit Kurs00005;
 
 interface
 
@@ -6,7 +6,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, UStiftWindr2, TeeProcs, TeEngine, Chart, StdCtrls, Menus,
-  Series, Clipbrd, ComCtrls;
+  Series, Clipbrd, ComCtrls, Printers;
 
 const Breite  = 500;
       Abstand1= 10;
@@ -39,6 +39,8 @@ type
     Fensterausschnitt2: TMenuItem;
     N1: TMenuItem;
     N2: TMenuItem;
+    N3: TMenuItem;
+    Druckereinstellungen1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Series1AfterDrawValues(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -56,6 +58,7 @@ type
     procedure FormHide(Sender: TObject);
     procedure Fensterausschnitt2Click(Sender: TObject);
     procedure N2Click(Sender: TObject);
+    procedure Druckereinstellungen1Click(Sender: TObject);
   private
     Stift1, Stift2: TStiftWindr2;
     Malen, Verschieben, Zoomen, Ausschnitt: Boolean;
@@ -69,162 +72,188 @@ var
   UrsprungVorher, EndpunktVorher,
   UrsprungG, EndpunktG: TPoint;
   Verhaeltnis: Real;
-  Gradfeld: Array [1..2, 1..cMaxWerte] of Real;
-  Ortfeld: Array [1..cMaxWerte] of String;
-  Werte: Integer;
+  //Gradfeld: Array [1..2, 1..cMaxWerte] of Real;
+  //Ortfeld: Array [1..cMaxWerte] of String;
+  //Werte: Integer;
 
 implementation
 
-uses Kurs0001, Kurs0006, printers;
+uses Kurs00001, Kurs00006;
+
 
 
 {$R *.DFM}
 
 
 
-{Procedure TWindrose.Zeichnen;
-Var i, code: Integer;
-    Grad: Real;
-    s: String;
+{Function Komma(s: String): String;
 Begin
-With Chart1.Canvas do
- Begin
- brush.color := clWhite;
- Pen.Color:= clblack;
- FillRect (Rect (0, 0, Breite, Breite));
- Ellipse(Abstand1, Abstand1, Breite - Abstand1, Breite - Abstand1);
- Font.Name:= 'Arial';
- Font.Height:=-10;
- Font.Color:= clBlack;
- Pen.Width:=1;
- End;
-For i:=1 to 360 do
-  With Stift1 do
-   Begin
-   Hoch;
-   BewegeBis(Breite/2, Breite/2);
-   DreheBis(i);
-   BewegeUm(Breite/2 - Abstand2);
-   Runter;
-   BewegeUm(Abstand1);
-   End;
-For i:=1 to Form1.Tabelle.RowCount do
- If Form1.Tabelle.Cells[12,i]=Chr(Markierung)
-  Then
-  Begin
-  Val (Form1.Tabelle.Cells [11, i], Grad, Code);
-  If code = 0
-  Then With Stift1 do
-     Begin
-     Hoch;
-     BewegeBis(Breite/2, Breite/2);
-     DreheBis(Grad);
-     Runter;
-     BewegeUm(Breite/2 );
-     Pfeil(10);
-     DreheBis(Grad);
-     Str(Grad:0:2 , s);
-     Schreibe(Breite/2, Breite/2, Breite/2 - Abstand2 - 5, Grad,
-              (Form1.Tabelle.Cells [1, i] + ' ' + s + '°'));
-     End;
-  End;
+if s <> ''
+   Then s[Pos(',',s)]:= '.';
+Result:= s;
 End;}
 
-
 Procedure Zeichnevergr(Ursprung, EndPunkt: TPoint);
-Var zx, zy, i, HilfsKoordinate: Integer;
+Var zx, zy, i, HilfsKoordinate, Code: Integer;
     s: String;
+    Grad: real;
 
 Begin
 If EndPunkt.x < Ursprung.x
-   Then
-   Begin
-   HilfsKoordinate:= Ursprung.x;
-   Ursprung.x:= Endpunkt.x;
-   Endpunkt.x:= HilfsKoordinate;
-   End;
+   Then Begin
+        HilfsKoordinate:= Ursprung.x;
+        Ursprung.x:= Endpunkt.x;
+        Endpunkt.x:= HilfsKoordinate;
+        End;
 If EndPunkt.y < Ursprung.y
-   Then
-   Begin
-   HilfsKoordinate:= Ursprung.y;
-   Ursprung.y:= Endpunkt.y;
-   Endpunkt.y:= HilfsKoordinate;
-   End;
+   Then Begin
+        HilfsKoordinate:= Ursprung.y;
+        Ursprung.y:= Endpunkt.y;
+        Endpunkt.y:= HilfsKoordinate;
+        End;
 If (EndPunkt.x<>Ursprung.x) Or (EndPunkt.y<>Ursprung.y)
-  Then
-  Begin
-  If EndPunkt.x - Ursprung.x > EndPunkt.y - Ursprung.y
-     Then
-     Begin
-     Verhaeltnis:= Breite/(EndPunkt.x - Ursprung.x);
-     EndPunkt.y:= Ursprung.y + (EndPunkt.x - Ursprung.x);
-     End
-     Else
-     Begin
-     Verhaeltnis:= Breite/(EndPunkt.y - Ursprung.y);
-     EndPunkt.x:= Ursprung.x + (EndPunkt.y - Ursprung.y);
-     End;
-  UrsprungG:= Ursprung;
-  EndpunktG:= Endpunkt;
-  If Verhaeltnis < 501
-    Then
-    Begin
-    zx:= Round((- Ursprung.x + Breite/2) * Verhaeltnis);
-    zy:= Round((- Ursprung.y + Breite/2) * Verhaeltnis);
-    Windrose.StatusBar1.Panels[0].Text := Format('Vergrößerung: %f', [Verhaeltnis]);
-    Windrose.StatusBar1.Panels[1].Text :=
-             Format('Fensterausschnitt: %d/%d - %d/%d', [Ursprung.x, Ursprung.y, Endpunkt.x, Endpunkt.y]);
-    With Windrose.Chart1.Canvas do
+  Then Begin
+       If EndPunkt.x - Ursprung.x > EndPunkt.y - Ursprung.y
+          Then Begin
+               Verhaeltnis:= Breite/(EndPunkt.x - Ursprung.x);
+               EndPunkt.y:= Ursprung.y + (EndPunkt.x - Ursprung.x);
+               End
+          Else Begin
+               Verhaeltnis:= Breite/(EndPunkt.y - Ursprung.y);
+               EndPunkt.x:= Ursprung.x + (EndPunkt.y - Ursprung.y);
+               End;
+       UrsprungG:= Ursprung;
+       EndpunktG:= Endpunkt;
+       If Verhaeltnis < 501
+          Then Begin
+               zx:= Round((- Ursprung.x + Breite/2) * Verhaeltnis);
+               zy:= Round((- Ursprung.y + Breite/2) * Verhaeltnis);
+               Windrose.StatusBar1.Panels[0].Text := Format('Vergrößerung: %f', [Verhaeltnis]);
+               Windrose.StatusBar1.Panels[1].Text :=
+                        Format('Fensterausschnitt: %d/%d - %d/%d', [Ursprung.x, Ursprung.y, Endpunkt.x, Endpunkt.y]);
+               With Windrose.Chart1.Canvas do
+                    Begin
+                    brush.color := clWhite;
+                    Pen.Color:= clblack;
+                    Pen.Style:= psSolid;
+                    Pen.Mode:= pmCopy;
+                    FillRect (Rect (0, 0, Breite, Breite));
+                    Ellipse(Round((Abstand1 - Ursprung.x) * Verhaeltnis),
+                            Round((Abstand1 - Ursprung.y) * Verhaeltnis),
+                            Round((Breite - Abstand1 - Ursprung.x) * Verhaeltnis),
+                            Round((Breite - Abstand1 - Ursprung.y) * Verhaeltnis));
+                    Font.Name:= 'Arial';
+                    Font.Height:=-10;
+                    Font.Color:= clBlack;
+                    Pen.Width:=1;
+                    End;
+               For i:=1 to 360 do
+                   With Windrose.Stift1 do
+                        Begin
+                        Hoch;
+                        BewegeBis(zx, zy);
+                        DreheBis(i);
+                        BewegeUm((Breite/2 - Abstand2) * Verhaeltnis);
+                        Runter;
+                        BewegeUm((Abstand1) * Verhaeltnis);
+                        End;
+                For i:= 1 to Kursberechnung.Tabelle.RowCount - 1 do
+                    If Kursberechnung.Tabelle.Cells[13,i] = Auswahl   // wert von 'ü'
+                       Then Begin
+                            Val (Kursberechnung.Komma(Kursberechnung.Tabelle.Cells [12, i]), Grad, Code);
+                            If code = 0
+                               Then With Windrose.Stift1 do
+                                         Begin
+                                         Hoch;
+                                         BewegeBis(zx, zy);
+                                         DreheBis(Grad);
+                                         Runter;
+                                         BewegeUm(Breite/2 * Verhaeltnis);
+                                         Pfeil((Verhaeltnis - 1) + 10);
+                                         DreheBis(Grad);
+                                         Str(Grad:0:2 , s);
+                                         Schreibe(zx, zy, (Breite/2 - Abstand2 - 5) * Verhaeltnis,
+                                                  Grad, (Kursberechnung.Tabelle.Cells[1, i] + ' ' + s + '°'));
+                                         End;
+                            End;
+                End;
+       End;
+End;
+
+procedure TWindrose.Series1AfterDrawValues(Sender: TObject);
+begin
+Zeichnevergr(UrsprungG,EndpunktG);
+end;
+
+procedure TWindrose.FormActivate(Sender: TObject);
+begin
+//Werte:= 0;
+Windrose.Caption:= 'Windrose für '  +
+  Kursberechnung.UrOrt.Caption+'  '+Kursberechnung.UrBreite.Caption+' / '
+  +Kursberechnung.UrLaenge.Caption;
+{Kursberechnung.Orte.First;
+While not Kursberechnung.Orte.Eof do
+      Begin
+      Werte:= Werte + 1;
+      Gradfeld[1,Werte]:= Kursberechnung.Orte['g'];
+      If Kursberechnung.Orte['x'] = 'ü'
+         Then Gradfeld[2,Werte]:= 1
+         Else Gradfeld[2,Werte]:= 0;
+      Ortfeld[Werte]:= Kursberechnung.Orte['Ort'];
+      Kursberechnung.Orte.Next;
+      End;
+Kursberechnung.Orte.Locate('Ort',Kursberechnung.AktuOrt, []); }
+Chart1.Refresh;
+end;
+
+procedure TWindrose.Series2AfterDrawValues(Sender: TObject);
+Var i, Code: Integer;
+    s: String;
+    Grad: real;
+
+Begin
+With Chart2.Canvas do
      Begin
      brush.color := clWhite;
      Pen.Color:= clblack;
-     Pen.Style:= psSolid;
-     Pen.Mode:= pmCopy;
-     FillRect (Rect (0, 0, Breite, Breite));
-     Ellipse(Round((Abstand1 - Ursprung.x) * Verhaeltnis),
-             Round((Abstand1 - Ursprung.y) * Verhaeltnis),
-             Round((Breite - Abstand1 - Ursprung.x) * Verhaeltnis),
-             Round((Breite - Abstand1 - Ursprung.y) * Verhaeltnis));
+     FillRect (Rect (0, 0, Round(Breite * z)-1+2*Rand, Round(Breite * z)-1+ 2*Rand));
+     Ellipse(Round(Abstand1*z) + Rand, Round(Abstand1*z) + Rand,
+             Round((Breite - Abstand1)*z) + Rand, Round((Breite - Abstand1)*z) + Rand) ;
      Font.Name:= 'Arial';
-     Font.Height:=-10;
      Font.Color:= clBlack;
+     Font.Height:=-20;
      Pen.Width:=1;
      End;
-    For i:=1 to 360 do
-     With Windrose.Stift1 do
-     Begin
-     Hoch;
-     BewegeBis(zx, zy);
-     DreheBis(i);
-     BewegeUm((Breite/2 - Abstand2) * Verhaeltnis);
-     Runter;
-     BewegeUm((Abstand1) * Verhaeltnis);
-     End;
-     For i:=1 to Werte do
-           If Gradfeld[2,i] = 1   // wert von 'ü'
-           Then //Begin
-           //Val (Form1.Tabelle.Cells [12, i], Grad, Code);
-           //If code = 0{Then}
-                With Windrose.Stift1 do
-                     Begin
-                     Hoch;
-                     BewegeBis(zx, zy);
-                     DreheBis(Gradfeld[1,i]);
-                     Runter;
-                     BewegeUm(Breite/2 * Verhaeltnis);
-                     Pfeil((Verhaeltnis - 1) + 10);
-                     DreheBis(Gradfeld[1,i]);
-                     Str(Gradfeld[1,i]:0:2 , s);
-                     Schreibe(zx, zy, (Breite/2 - Abstand2 - 5) * Verhaeltnis,
-                              Gradfeld[1,i], (Ortfeld[i] + ' ' + s + '°'));
-                     End;
-                //End;
-           //Kursberechnung.Orte.Next;
-           End;
-    //ENd;
-  End;
-End;
-
+For i:=1 to 360 do
+    With Stift2 do
+         Begin
+         Hoch;
+         BewegeBis(Breite/2*z + Rand, Breite/2*z + Rand);
+         DreheBis(i);
+         BewegeUm((Breite/2 - Abstand2)*z);
+         Runter;
+         BewegeUm(Abstand1*z);
+         End;
+For i:=1 to Kursberechnung.Tabelle.RowCount - 1 do
+    If Kursberechnung.Tabelle.Cells[13,i] = Auswahl   // wert von 'ü'
+       Then Begin
+            Val (Kursberechnung.Komma(Kursberechnung.Tabelle.Cells [12, i]), Grad, Code);
+            If code = 0
+               Then With Stift2 do
+                         Begin
+                         Hoch;
+                         BewegeBis(Breite/2*z + Rand, Breite/2*z + Rand);
+                         DreheBis(Grad);
+                         Runter;
+                         BewegeUm(Breite/2*z);
+                         Pfeil(30);
+                         DreheBis(Grad);
+                         Str(Grad:0:2 , s);
+                         Schreibe(Breite/2*z + Rand, Breite/2*z + Rand, (Breite/2 - Abstand2 - 5)*z,
+                                  Grad, (Kursberechnung.Tabelle.Cells[1, i] + ' ' + s + '°'));
+                         End;
+            End;
+end;
 
 procedure TWindrose.FormCreate(Sender: TObject);
 begin
@@ -242,80 +271,6 @@ UrsprungG:= Point(0,0);
 EndpunktG:= Point(Breite, Breite);
 MausRunter:= Point(0,0);
 end;
-
-procedure TWindrose.Series1AfterDrawValues(Sender: TObject);
-begin
-Zeichnevergr(UrsprungG,EndpunktG);
-end;
-
-procedure TWindrose.FormActivate(Sender: TObject);
-begin
-Werte:= 0;
-Windrose.Caption:= 'Windrose für '  +
-  Kursberechnung.UrOrt.Caption+'  '+Kursberechnung.UrBreite.Caption+' / '
-  +Kursberechnung.UrLaenge.Caption;
-Kursberechnung.Orte.First;
-While not Kursberechnung.Orte.Eof do
-      Begin
-      Werte:= Werte + 1;
-      Gradfeld[1,Werte]:= Kursberechnung.Orte['g'];
-      If Kursberechnung.Orte['x'] = 'ü'
-         Then Gradfeld[2,Werte]:= 1
-         Else Gradfeld[2,Werte]:= 0;
-      Ortfeld[Werte]:= Kursberechnung.Orte['Ort'];
-      Kursberechnung.Orte.Next;
-      End;
-Kursberechnung.Orte.Locate('Ort',Kursberechnung.AktuOrt, []);
-Chart1.Refresh;
-end;
-
-procedure TWindrose.Series2AfterDrawValues(Sender: TObject);
-Var i: Integer;
-    s: String;
-Begin
-With Chart2.Canvas do
- Begin
- brush.color := clWhite;
- Pen.Color:= clblack;
- FillRect (Rect (0, 0, Round(Breite * z)-1+2*Rand, Round(Breite * z)-1+ 2*Rand));
- Ellipse(Round(Abstand1*z) + Rand, Round(Abstand1*z) + Rand,
-         Round((Breite - Abstand1)*z) + Rand, Round((Breite - Abstand1)*z) + Rand) ;
- Font.Name:= 'Arial';
- Font.Color:= clBlack;
- Font.Height:=-20;
- Pen.Width:=1;
- End;
-For i:=1 to 360 do
-  With Stift2 do
-   Begin
-   Hoch;
-   BewegeBis(Breite/2*z + Rand, Breite/2*z + Rand);
-   DreheBis(i);
-   BewegeUm((Breite/2 - Abstand2)*z);
-   Runter;
-   BewegeUm(Abstand1*z);
-   End;
-   For i:=1 to Werte do
-       If Gradfeld[2,i] = 1   // wert von 'ü'
-           Then
-                With Stift2 do
-                     Begin
-                     Hoch;
-                     BewegeBis(Breite/2*z + Rand, Breite/2*z + Rand);
-                     DreheBis(Gradfeld[1,i]);// warum nicht ['g']
-                     Runter;
-                     BewegeUm(Breite/2*z);
-                     Pfeil(30);
-                     DreheBis(Gradfeld[1,i]);
-                     Str(Gradfeld[1,i]:0:2 , s);
-                     Schreibe(Breite/2*z + Rand, Breite/2*z + Rand, (Breite/2 - Abstand2 - 5)*z,
-                        Gradfeld[1,i], (Ortfeld[i] + ' ' + s + '°'));
-                     End;
-                //End;
-           //Kursberechnung.Orte.Next;
-           //End;
-end;
-
 
 procedure TWindrose.Chart1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
@@ -426,52 +381,44 @@ end;
 
 procedure TWindrose.gesamteWindrose1Click(Sender: TObject);
 begin
-If PrinterSetupDialog1.Execute
-   Then
-   Begin
-   Chart2.Refresh;
-   Printer.Orientation:= poPortrait;
-   Printer.BeginDoc;
-    Try
-     With Printer.Canvas do
-        begin
-        Font.Name:= 'MS Sans Serif';
-        Font.Size:= 12;
-        Font.Style:= [];
-        TextOut((Printer.PageWidth - TextWidth(Caption)) Div 2,
-                 Printer.PageWidth + 60, Caption);
-        Chart2.Printpartial(Rect(0, 0, Printer.PageWidth - 1, Printer.PageWidth - 1));
-        end;
-     Finally
-     Printer.EndDoc;
-     End;
-   End;
+Chart2.Refresh;
+Printer.Orientation:= poPortrait;
+Printer.BeginDoc;
+ Try
+  With Printer.Canvas do
+     begin
+     Font.Name:= 'MS Sans Serif';
+     Font.Size:= 12;
+     Font.Style:= [];
+     TextOut((Printer.PageWidth - TextWidth(Caption)) Div 2,
+              Printer.PageWidth + 60, Caption);
+     Chart2.Printpartial(Rect(0, 0, Printer.PageWidth - 1, Printer.PageWidth - 1));
+     end;
+ Finally
+ Printer.EndDoc;
+ End;
 end;
 
 procedure TWindrose.Fensterausschnitt1Click(Sender: TObject);
 begin
-If PrinterSetupDialog1.Execute
-   Then
-   Begin
-   Chart1.Refresh;
-   Chart1.Draw(Image1.Canvas, Rect(0,0, 500, 500));//Rect wird bewirkt nichts!
-   Printer.Orientation:= poPortrait;
-   Printer.BeginDoc;
-    Try
-     With Printer.Canvas do
-      begin
-        Font.Name:= 'MS Sans Serif';
-        Font.Size:= 12;
-        Font.Style:= [];
-        TextOut((Printer.PageWidth - TextWidth('Fensterausschnitt der ' + Caption)) Div 2,
-                 Printer.PageHeight Div 20, 'Fensterausschnitt der ' + Caption);
-        StretchDraw(Rect((Printer.PageWidth - 1000) Div 2, Printer.PageHeight Div 20 + 200,
-        (Printer.PageWidth - 1000) Div 2 + 1000, Printer.PageHeight Div 20 + 1200), Image1.Picture.Graphic);
-      end;
-    Finally
-     Printer.EndDoc;
-     End;
-   End;
+Chart1.Refresh;
+Chart1.Draw(Image1.Canvas, Rect(0,0, 500, 500));//Rect wird bewirkt nichts!
+Printer.Orientation:= poPortrait;
+Printer.BeginDoc;
+ Try
+  With Printer.Canvas do
+   begin
+     Font.Name:= 'MS Sans Serif';
+     Font.Size:= 12;
+     Font.Style:= [];
+     TextOut((Printer.PageWidth - TextWidth('Fensterausschnitt der ' + Caption)) Div 2,
+              Printer.PageHeight Div 20, 'Fensterausschnitt der ' + Caption);
+     StretchDraw(Rect((Printer.PageWidth - 1000) Div 2, Printer.PageHeight Div 20 + 200,
+     (Printer.PageWidth - 1000) Div 2 + 1000, Printer.PageHeight Div 20 + 1200), Image1.Picture.Graphic);
+   end;
+ Finally
+ Printer.EndDoc;
+ End;
 end;
 
 procedure TWindrose.Einszueins1Click(Sender: TObject);
@@ -500,6 +447,11 @@ end;
 procedure TWindrose.N2Click(Sender: TObject);
 begin
 Clipboard.Clear;
+end;
+
+procedure TWindrose.Druckereinstellungen1Click(Sender: TObject);
+begin
+PrinterSetupDialog1.Execute;
 end;
 
 end.

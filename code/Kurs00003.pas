@@ -1,10 +1,10 @@
-unit Kurs0003;
+unit Kurs00003;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ComCtrls, ExtCtrls;
+  ComCtrls, ExtCtrls, StdCtrls;
 
 type
   TFilm = class(TForm)
@@ -30,14 +30,20 @@ implementation
 
 procedure TFilm.FormShow(Sender: TObject);
 begin
-Animate1.Play (1, Animate1.FrameCount, 1);
+If Fileexists('Kursgleiche.avi')
+   Then Animate1.Play (1, Animate1.FrameCount, 1)
+   Else Begin
+        ShowMessage('Filmdatei Kursgleiche.avi fehlt!');
+        Animate1.CommonAVI:= aviNone;
+        Animate1.Width:= 10;
+        Animate1.ParentColor:= True;
+        End;
 Timer1.Enabled:= True;
 end;
 
 procedure TFilm.Timer1Timer(Sender: TObject);
 begin
 Timer1.Enabled:= False;
-//Tag:=Tag + 1;
 ModalResult:= mrOK;
 end;
 
@@ -48,7 +54,6 @@ If (Key = 87)  And (ssAlt in Shift)  // 87 ist Taste 'w'
    Then
    Begin
    Timer1.Enabled:= False;
-   //Tag:= Tag + 1;
    ModalResult:= mrOK;
    End;
 end;

@@ -1,29 +1,33 @@
-program Kursgleiche0001;
+program Kursgleiche00001;
 
 uses
   Forms,
-  Kurs0001 in 'Kurs0001.pas' {Kursberechnung},
-  Kurs0002 in 'Kurs0002.pas' {Vorschau},
-  Kurs0003 in 'Kurs0003.pas' {Film},
-  Kurs0004 in 'Kurs0004.pas' {Bild},
-  Kurs0005 in 'Kurs0005.pas' {Windrose},
-  Kurs0006 in 'Kurs0006.pas' {Zoominfo},
-  Kurs0007 in 'Kurs0007.pas' {Programminfo},
-  Kurs0008 in 'Kurs0008.pas' {Eintrag},
-  Kurs0009 in 'Kurs0009.pas' {Sucheform};
+  Kurs00001 in 'Kurs00001.pas' {Kursberechnung},
+  Kurs00003 in 'Kurs00003.pas' {Film},
+  Kurs00005 in 'Kurs00005.pas' {Windrose},
+  Kurs00006 in 'Kurs00006.pas' {Zoominfo},
+  Kurs00007 in 'Kurs00007.pas' {Programminfo},
+  Kurs00009 in 'Kurs00009.pas' {Sucheform},
+  Kurs00002 in 'Kurs00002.pas' {Druckvorschau},
+  Kurs00008 in 'Kurs00008.pas' {Formatierung},
+  Kurs00004 in 'Kurs00004.pas' {Bilder},
+  Kurs00010 in 'Kurs00010.pas' {Druckhilfe},
+  Kurs00011 in 'Kurs00011.pas' {Druck};
 
 {$R *.RES}
 
 begin
   Application.Initialize;
   Application.CreateForm(TKursberechnung, Kursberechnung);
-  Application.CreateForm(TVorschau, Vorschau);
   Application.CreateForm(TFilm, Film);
-  Application.CreateForm(TBild, Bild);
   Application.CreateForm(TWindrose, Windrose);
   Application.CreateForm(TZoominfo, Zoominfo);
   Application.CreateForm(TProgramminfo, Programminfo);
-  Application.CreateForm(TEintrag, Eintrag);
   Application.CreateForm(TSucheform, Sucheform);
+  Application.CreateForm(TFormatierung, Formatierung);
+  Application.CreateForm(TDruckvorschau, Druckvorschau);
+  Application.CreateForm(TBilder, Bilder);
+  Application.CreateForm(TDruckhilfe, Druckhilfe);
+  Application.CreateForm(TDruck, Druck);
   Application.Run;
 end.

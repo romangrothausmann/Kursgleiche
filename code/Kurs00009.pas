@@ -1,4 +1,4 @@
-unit Kurs0009;
+unit Kurs00009;
 
 interface
 
@@ -27,29 +27,22 @@ var
 
 implementation
 
-uses Kurs0001;
+uses Kurs00001;
+
 
 {$R *.DFM}
 
 procedure TSucheform.Button1Click(Sender: TObject);
-Var Spalte: String;
 begin
-Case Spaltenbox.ItemIndex of
-     0: Spalte:= 'Ort';
-     1: Spalte:= 'Breite';
-     2: Spalte:= 'Laenge';
-     3: Spalte:= 'Land';
-     4: Spalte:= 'Besond';
-     End;
-If Kursberechnung.Orte.Locate(Spalte, Edit2.Text,
-   [loCaseInsensitive, loPartialKey])
-   Then Label3.Caption:= 'Eintrag '+Kursberechnung.Orte[Spalte]+' gefunden!'
-   Else Label3.Caption:= 'Eintrag nicht gefunden!';
+Kursberechnung.AktuOrt:= Kursberechnung.Finde(Sucheform.Spaltenbox.ItemIndex, Edit2.Text);
+If Kursberechnung.AktuOrt.Name <> ''
+   Then Label3.Caption:= 'Eintrag '+Kursberechnung.Tabelle.cells[Kursberechnung.AktuOrt.Spalte,Kursberechnung.AktuOrt.Zeile]+' gefunden!'
+   Else Label3.Caption:= 'Keinen passenden Eintrag gefunden!'
 end;
 
 procedure TSucheform.FormShow(Sender: TObject);
 begin
-Spaltenbox.ItemIndex:= 0;
+Spaltenbox.ItemIndex:= 1;
 Label3.Caption:='';
 end;
 
