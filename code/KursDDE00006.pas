@@ -1,4 +1,4 @@
-unit Kurs00006;
+unit KursDDE00006;
 
 interface
 
@@ -21,7 +21,7 @@ var
 
 implementation
 
-uses Kurs00005;
+uses KursDDE00005;
 
 
 {$R *.DFM}

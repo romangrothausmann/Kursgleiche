@@ -1,4 +1,4 @@
-unit Kurs00007;
+unit KursDDE00007;
 
 interface
 
@@ -34,7 +34,7 @@ With RichEdit1 do
      SelAttributes.Style := [];
      SelAttributes.Size:= 8;
      Lines.Add('');
-     Lines.Add('Copyright © 6.3.2002 Roman Grothausmann, Version 4.02');
+     Lines.Add('Copyright © 6.3.2002 Roman Grothausmann, Version 4.03');
      Lines.Add('');
      Lines.Add('');
      Lines.Add('Dieses Programm berechnet den Kurswinkel vom Ursprungsort zu den'
@@ -43,7 +43,8 @@ With RichEdit1 do
               +'prungsort bewegen müsste, um am Zielort anzukommen. Um einen '
               +'Ursprungsort festzulegen, doppelklicken Sie auf einen eingetragen'
               +'en Ortsnamen in der Tabelle. Falls Sie einen neuen Ort eintrage'
-              +'n wollen, können Sie durch einmaliges Markieren der Zelle und '
+              +'n wollen, müssen Sie nur die Zelle markieren und dann die Eintragung '
+              +'vornehmen. Sie können zum Ändern eines Eintags durch einmaliges Markieren der Zelle und '
               +'dann durch einen weiteren Mausklick oder durch Drücken der '
               +'Eingabetaste in den Eingabemodus wechseln. '
               +'Der Unterschied zum Doppelklick liegt in der größeren '
@@ -121,6 +122,13 @@ With RichEdit1 do
               +'Um alle Orte mit einem Haken zu versehen, muss man nur auf den '
               +'Titelhaken klicken. Zur graphischen Darstellung der Berechnung'
               +'en kann man auf das Bild im Hauptfenster klicken.');
+      Lines.Add('');
+     Lines.Add('Der Unterschied zur Version 4.02 besteht darin, dass diese Version '
+              +'über das DDE (Dynamic Data Exchange) Makros ausführen kann. Die '
+              +'Einträge in der Registrierung sind deshalb anders. Es ist nun '
+              +'möglich, eine Kursdatei (*.krs) durch klicken mit der rechten '
+              +'Maustaste direkt aus dem Windows Exporer zu drucken. Das '
+              +'Programm agiert aber nicht als Server oder Client!');
      SelStart:= 500;
      End;
 end;

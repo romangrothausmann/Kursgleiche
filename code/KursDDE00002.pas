@@ -1,4 +1,4 @@
-unit Kurs00002;
+unit KursDDE00002;
 
 interface
 
@@ -51,6 +51,7 @@ type
     { Private-Deklarationen }
   public
     DBlattAnz: Integer;
+    Quer: Boolean;
     Procedure ExternDrucken;
     Function Grenzen(Anfang: Boolean; Blatt: Integer): Integer;
   end;
@@ -69,7 +70,7 @@ var
 
 implementation
 
-uses Kurs00001, Kurs00008, Kurs00010, Kurs00011;
+uses KursDDE00001, KursDDE00008, KursDDE00010, KursDDE00011;
 
 
 
@@ -306,23 +307,24 @@ End;
 Procedure ZeichneBildschirm;
 Begin
 Screen.Cursor:= crHourGlass;
-Try Druckvorschau.Blatt1.free;
+Try
+  Druckvorschau.Blatt1.free;
 Finally
-Druckvorschau.Blatt1:= TImage.Create(Druckvorschau.ScrollBox1);
-Druckvorschau.Blatt1.Parent := Druckvorschau.ScrollBox1;
-If Formatierung.Querformat.Checked
-   Then Printer.Orientation:= poLandscape
-   Else Printer.Orientation:= poPortrait;
-Druckvorschau.Blatt1.Width:= Round(cBreite * Faktor);
-Druckvorschau.Blatt1.Height:= Round((Printer.PageHeight / Printer.PageWidth * cBreite) * Faktor);
-Breite:= Druckvorschau.Blatt1.Width;
-Hoehe:= Druckvorschau.Blatt1.Height;
-If Druckvorschau.ScrollBox1.HorzScrollBar.IsScrollBarVisible//.Width < Breite
-   Then Druckvorschau.Blatt1.Left:= 0
-   Else Druckvorschau.Blatt1.Left:= (Druckvorschau.ScrollBox1.Width - Breite) div 2 - CAbstand;
-If Druckvorschau.ScrollBox1.VertScrollBar.IsScrollBarVisible//Height < Hoehe
-   Then Druckvorschau.Blatt1.Top:= 0
-   Else Druckvorschau.Blatt1.Top:= (Druckvorschau.ScrollBox1.Height - Hoehe) div 2 - CAbstand;
+  Druckvorschau.Blatt1:= TImage.Create(Druckvorschau.ScrollBox1);
+  Druckvorschau.Blatt1.Parent := Druckvorschau.ScrollBox1;
+  If Formatierung.Querformat.Checked
+     Then Printer.Orientation:= poLandscape
+     Else Printer.Orientation:= poPortrait;
+  Druckvorschau.Blatt1.Width:= Round(cBreite * Faktor);
+  Druckvorschau.Blatt1.Height:= Round((Printer.PageHeight / Printer.PageWidth * cBreite) * Faktor);
+  Breite:= Druckvorschau.Blatt1.Width;
+  Hoehe:= Druckvorschau.Blatt1.Height;
+  If Druckvorschau.ScrollBox1.HorzScrollBar.IsScrollBarVisible//.Width < Breite
+     Then Druckvorschau.Blatt1.Left:= 0
+     Else Druckvorschau.Blatt1.Left:= (Druckvorschau.ScrollBox1.Width - Breite) div 2 - CAbstand;
+  If Druckvorschau.ScrollBox1.VertScrollBar.IsScrollBarVisible//Height < Hoehe
+     Then Druckvorschau.Blatt1.Top:= 0
+     Else Druckvorschau.Blatt1.Top:= (Druckvorschau.ScrollBox1.Height - Hoehe) div 2 - CAbstand;
 End;
 Druckvorschau.Blatt1.Canvas.Brush.Color:= ClWhite;
 Druckvorschau.Blatt1.Canvas.Font.Name:= Formatierung.schriften.Items[Formatierung.schriften.ItemIndex];
@@ -361,6 +363,9 @@ Procedure TDruckvorschau.ExternDrucken;
 Var i: Integer;
 Begin
 Screen.Cursor:= crHourGlass;
+If Druckvorschau.Quer
+   Then Printer.Orientation:= poLandscape
+   Else Printer.Orientation:= poPortrait;
 Drucken;
 Screen.Cursor:= crDefault;
 For i:= 1 to Druckvorschau.DBlattAnz do
@@ -436,7 +441,12 @@ If (Key = 13)
         If (r > 0)
            Then Begin
                 Faktor:= r / 100;
-                ZeichneBildschirm;
+                Try ZeichneBildschirm;
+                Except ShowMessage('Nicht genug Speicher vorhanden!');
+                       Faktor:= cAnfFak / 100;
+                       Zoom.Text:= FloatToStr(Faktor * 100);
+                       ZeichneBildschirm;
+                       End;
                 End;
         End;
 end;
@@ -451,7 +461,13 @@ Val(Zoom.Text, r, Code);
 If (r > 0)
    Then Begin
         Faktor:= r / 100;
-        ZeichneBildschirm;
+        Try ZeichneBildschirm;
+        Except AllowChange:= False;
+               ShowMessage('Nicht genug Speicher vorhanden!');
+               Faktor:= cAnfFak / 100;
+               Zoom.Text:= FloatToStr(Faktor * 100);
+               ZeichneBildschirm;
+               End;
         End;
 end;
 

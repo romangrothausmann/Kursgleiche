@@ -1,4 +1,4 @@
-unit Kurs00001;
+unit KursDDE00001;
 
 interface
 
@@ -11,7 +11,7 @@ Const //cMaxWerte = 500;
       Winkel = 1;
       Indexdatei = 'KursindexDBF.mdx';
       //Haken = 'ü';
-      MeinOrt = 'Dahlhausen';
+      MeinOrt = 'Bochum-Dahlhausen';
       Auswahl = 'ü';
       SpaltenTitel0 = '#';
       SpaltenTitel1 = 'Ort';
@@ -48,48 +48,49 @@ type
     Label2: TLabel;
     Panel1: TPanel;
     StaticText1: TStaticText;
+    MainMenu1: TMainMenu;
+    Datei: TMenuItem;
+    ffnen1: TMenuItem;
+    Speichern1: TMenuItem;
+    N1: TMenuItem;
+    Drucken1: TMenuItem;
+    N2: TMenuItem;
+    Beenden1: TMenuItem;
+    Bearbeiten1: TMenuItem;
+    Filtern: TMenuItem;
+    Kurs1: TMenuItem;
+    Kurswinkelberechnen1: TMenuItem;
+    Windroseerstellen1: TMenuItem;
+    Info1: TMenuItem;
+    Eingabeinfo1: TMenuItem;
     offnen: TOpenDialog;
     speichern: TSaveDialog;
     UrOrt: TLabel;
     UrBreite: TLabel;
     UrLaenge: TLabel;
+    Neu1: TMenuItem;
+    Suchen1: TMenuItem;
+    N3: TMenuItem;
     Label3: TLabel;
     Image2: TImage;
     Tabelle: TStringGrid;
+    Neunumerieren1: TMenuItem;
+    NeueZeile1: TMenuItem;
+    letzteZeilelschen1: TMenuItem;
     PopupMenu1: TPopupMenu;
     DieseZeilelschen1: TMenuItem;
+    Rckgngiglschen1: TMenuItem;
+    Tabelleinitialisieren1: TMenuItem;
+    N4: TMenuItem;
     Label4: TLabel;
     Zeilekopieren1: TMenuItem;
-    MainMenu1: TMainMenu;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
-    MenuItem6: TMenuItem;
-    MenuItem7: TMenuItem;
-    MenuItem8: TMenuItem;
-    MenuItem9: TMenuItem;
-    MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
-    MenuItem12: TMenuItem;
-    MenuItem13: TMenuItem;
-    MenuItem14: TMenuItem;
-    MenuItem16: TMenuItem;
-    MenuItem17: TMenuItem;
-    MenuItem18: TMenuItem;
-    MenuItem19: TMenuItem;
-    MenuItem21: TMenuItem;
-    MenuItem22: TMenuItem;
-    MenuItem24: TMenuItem;
-    MenuItem25: TMenuItem;
-    MenuItem26: TMenuItem;
-    Neunummerieren1: TMenuItem;
-    Kurswinkelberechnen1: TMenuItem;
-    Speichern1: TMenuItem;
-    Zeileneinfgen1: TMenuItem;
-    Hakeninvertieren1: TMenuItem;
+    ZeilenEinfgen1: TMenuItem;
+    Speicherlschen1: TMenuItem;
+    Speichern2: TMenuItem;
+    Kursserver: TDdeServerConv;
     AlleHakenentfernen1: TMenuItem;
-    N1: TMenuItem;
+    Hakeninvertieren1: TMenuItem;
+    N5: TMenuItem;
     procedure Drucken1Click(Sender: TObject);
     procedure Beenden1Click(Sender: TObject);
     //procedure OrteAfterOpen(DataSet: TDataSet);
@@ -114,7 +115,7 @@ type
     procedure TabelleDblClick(Sender: TObject);
     procedure TabelleSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
-    procedure Neunummerieren1Click(Sender: TObject);
+    procedure Neunumerieren1Click(Sender: TObject);
     procedure TabelleSetEditText(Sender: TObject; ACol, ARow: Integer;
       const Value: String);
     procedure NeueZeile1Click(Sender: TObject);
@@ -129,11 +130,12 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure Speichern2Click(Sender: TObject);
     procedure Label4DblClick(Sender: TObject);
+    procedure KursserverExecuteMacro(Sender: TObject; Msg: TStrings);
     procedure Hakeninvertieren1Click(Sender: TObject);
     procedure AlleHakenentfernen1Click(Sender: TObject);
   private
     Anfang: TPoint;
-    Doppelklick, rechts, Modified: Boolean;
+    Doppelklick, rechts, Modified, Gestartet: Boolean;
   Protected
     Procedure WMDropFiles(var Msg: TMessage);
               message wm_DropFiles;
@@ -141,18 +143,18 @@ type
     AktuOrt: TAktuOrt;
     Speicher: TSpeicher;
     Function Komma(s: String): String;
-    Function Finde(a: Integer; s: String): TAktuOrt;
+    //Function Finde(a: Integer; s: String; Ganz: Boolean): TAktuOrt;
   end;
 
 var
   Kursberechnung: TKursberechnung;
-  Sorted: TSort;   
-  Dateiname: String;
+  Sorted: TSort;
+  Dateiname, SMakro: String;
 
 implementation
 
-uses Kurs00002, Kurs00003, Kurs00004, Kurs00005, Kurs00007, Kurs00008,
-     Kurs00009;
+uses KursDDE00002, KursDDE00003, KursDDE00004, KursDDE00005,
+     KursDDE00007, KursDDE00008, KursDDE00009;
 
 {$R *.DFM}
 
@@ -205,12 +207,12 @@ If Kursberechnung.Tabelle.RowCount = 2
    Else Kursberechnung.Label3.Caption:= Format('Die Tabelle enthält %d Einträge', [Kursberechnung.Tabelle.RowCount - 1]);
 End;
 
-Function TKursberechnung.Finde(a: Integer; s: String): TAktuOrt;
+Function Finde(a: Integer; s: String): TAktuOrt;
 Var i: Integer;
 Begin
 For i:= 1 to Kursberechnung.Tabelle.RowCount - 1 do
-    if Pos(s, Kursberechnung.Tabelle.Cells[a, i]) <> 0
-       Then Begin
+    if s = Kursberechnung.Tabelle.Cells[a, i]
+       then Begin
             Kursberechnung.Tabelle.TopRow:= i;
             Result.Spalte:= a;
             Result.Zeile:= i;
@@ -415,7 +417,7 @@ var
   Column, Row: Longint;
 begin
 Tabelle.MouseToCell(X, Y, Column, Row);
-If (Anfang.x = X) and (Anfang.y = Y) and (Row = 0)
+If (Anfang.x = X) and (Anfang.y = Y) and (Row = 0) and (Button = mbLeft)
    Then Begin
         Screen.Cursor:= crHourGlass;
         Case Column of
@@ -524,9 +526,10 @@ For j:= 0 to Kursberechnung.Tabelle.ColCount - 1 do
     Kursberechnung.Tabelle.Cells[j, i]:= s;
     End;
 End;
-Kursberechnung.Tabelle.RowCount:= Kursberechnung.Tabelle.RowCount - 1;
+If Kursberechnung.Tabelle.RowCount > 2
+   Then Kursberechnung.Tabelle.RowCount:= Kursberechnung.Tabelle.RowCount - 1;
 CloseFile(tf);
-Kursberechnung.AktuOrt:= Kursberechnung.Finde(1, t);
+Kursberechnung.AktuOrt:= Finde(1, t);
 Kursberechnung.Label4.Caption:= 'Aktueller Ort: ' + Kursberechnung.AktuOrt.Name;
 Eintraege;
 Dateiname:= Datei;
@@ -538,8 +541,6 @@ If Kursberechnung.AktuOrt.Name <> ''
         Kursberechnung.Tabelle.Cells[13, Kursberechnung.AktuOrt.Zeile]:= '';
         End;
 Kursberechnung.Caption:= 'Kursberechnung [' + ExtractFileName(Datei) + ']';// ist vielleicht nur lokal!
-ShowMessage('Es wurden noch keine neuen Kurswinkel berechnet!');
-//Kursberechnung.Kurswinkelberechnen1.Click;
 End;
 
 Procedure CSVOpen(Datei: String);
@@ -576,11 +577,12 @@ While not EoF(tf) do
       Readln(tf);
       End;
 CloseFile(tf);
-Kursberechnung.Tabelle.RowCount:= Kursberechnung.Tabelle.RowCount - 1;
-Kursberechnung.Neunummerieren1.Click;
+If Kursberechnung.Tabelle.RowCount > 2
+   then Kursberechnung.Tabelle.RowCount:= Kursberechnung.Tabelle.RowCount - 1;
+Kursberechnung.Neunumerieren1.Click;
 Eintraege;
 Dateiname:= Datei;
-Kursberechnung.AktuOrt:= Kursberechnung.Finde(1, MeinOrt);
+Kursberechnung.AktuOrt:= Finde(1, MeinOrt);
 Kursberechnung.Label4.Caption:= 'Aktueller Ort: ' + Kursberechnung.AktuOrt.Name;
 Kursberechnung.UrOrt.Caption:= Kursberechnung.Aktuort.Name;
 Kursberechnung.UrBreite.Caption:= Kursberechnung.Tabelle.Cells[2, Kursberechnung.AktuOrt.Zeile];
@@ -747,7 +749,7 @@ For j:= 0 to Kursberechnung.Tabelle.RowCount - 1 do
     Writeln(CsvDatei);
     End;
 CloseFile(CsvDatei);
-Kursberechnung.Finde(1, Kursberechnung.AktuOrt.Name);
+Finde(1, Kursberechnung.AktuOrt.Name);
 End;
 
 Function Punkt(s: String): String;
@@ -770,6 +772,56 @@ If LowerCase(ExtractFileExt(s)) = '.krs'
    Then Kursdateioeffnen(s);
 If LowerCase(ExtractFileExt(s)) = '.csv'
    Then CSVOpen(s);
+Kursberechnung.Modified:= False;
+End;
+
+procedure Ausfuehren(Befehl: String);
+Var s, t, d: String;
+    a, e: Integer;
+Begin
+t:= Befehl;//LowerCase(Befehl);
+d:= Dateiname;
+a:= Pos('[', t);
+While a > 0 do
+Begin  
+e:= Pos(']', t);
+If e <= a
+   Then Begin
+        MessageDlg('Kann Makros nicht ausführen!', mtError, [mbOk], 0);
+        Exit;
+        End;
+s:= copy(t,a + 1, e - a - 1);
+Delete(t, 1, e);
+If pos('open(', s) <> 0
+   Then Begin
+        delete(s, 1, pos('(', s));
+        delete(s, pos(')', s), Length(s));
+        If Kursberechnung.Modified
+           Then If MessageDlg('Datei ' + Kursberechnung.Caption + ' speichern?',
+                               mtConfirmation, [mbYes, mbNo], 0) = mrYes
+                   Then Kursberechnung.Speichern1.Click;
+        Open(s);
+        End
+Else If pos('quer', s) <> 0
+        Then Druckvorschau.Quer:= True
+Else If pos('hoch', s) <> 0
+        Then Druckvorschau.Quer:= False
+Else If pos('print', s) <> 0
+        Then Druckvorschau.ExternDrucken
+Else If pos('windrose_drucken', s) <> 0
+        Then Begin
+             Windrose.Caption:= 'Windrose für '  + Kursberechnung.UrOrt.Caption
+               + '  ' + Kursberechnung.UrBreite.Caption + ' / '
+               + Kursberechnung.UrLaenge.Caption;
+             Windrose.gesamteWindrose1.Click;
+             End
+Else If pos('quit', s) <> 0
+        Then Kursberechnung.Beenden1.click
+Else If pos('exit', s) <> 0
+        Then Open(d)
+Else MessageDlg('Kenne Makro nicht! <' + s + '>', mtError, [mbOk], 0);
+a:= Pos('[',t);
+End;
 End;
 
 procedure TKursberechnung.Drucken1Click(Sender: TObject);
@@ -786,6 +838,9 @@ end;
 procedure TKursberechnung.FormShow(Sender: TObject);
 begin
 Film.ShowModal;
+//ShowMessage(SMakro + ' !');
+Ausfuehren(SMakro);
+Gestartet:= True;
 end;
 
 procedure TKursberechnung.Kurswinkelberechnen1Click(Sender: TObject);
@@ -831,7 +886,7 @@ If UrBreite.Caption = ''
             Cells [12,i]:= Punkt(B);
             End;
         //Haken(0);
-        ShowMessage('Noch keine neue Haken gesetzt!');
+        //ShowMessage('Noch keine neuen Haken gesetzt!');
         Tabelle.Cells[13, Finde(1, UrOrt.Caption).Zeile]:= '';
         Finde(1, AktuOrt.Name);
         Modified:= True;
@@ -884,9 +939,14 @@ procedure TKursberechnung.Neu1Click(Sender: TObject);
 Var i: Integer;
 begin
 If Modified
-   Then If MessageDlg('Datei ' + Caption + ' speichern?',
-                       mtConfirmation, [mbYes, mbNo], 0) = mrYes
-           Then Speichern1.Click;
+   Then case MessageDlg('Datei ' + Caption + ' speichern?',
+                       mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+             mrYes: Begin
+                    Speichern1.Click;
+                    Exit;
+                    End;
+             mrCancel: Exit;
+             End;
 Dateiname:= 'Unbenannt';
 Caption:= 'Kursberechnung [' + ExtractFileName(Dateiname) + ']';
 Tabelle.RowCount:= 2;
@@ -902,9 +962,14 @@ end;
 procedure TKursberechnung.ffnen1Click(Sender: TObject);
 begin
 If Modified
-   Then If MessageDlg('Datei ' + Caption + ' speichern?',
-                       mtConfirmation, [mbYes, mbNo], 0) = mrYes
-           Then Speichern1.Click;
+   Then Case MessageDlg('Datei ' + Caption + ' speichern?',
+                       mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+             mrYes: Begin
+                    Speichern1.Click;
+                    Exit;
+                    End;
+             mrCancel: Exit;
+             End;
 If Offnen.Execute
    Then Begin
         If ExtractFileExt(Offnen.FileName) = ''
@@ -914,7 +979,6 @@ If Offnen.Execute
                    3: Kursdateioeffnen(Offnen.FileName);
                    End;
         Open(Offnen.FileName);
-        Modified:= False;
         End;
 end;
 
@@ -952,6 +1016,7 @@ Dateiname:= 'Unbennant';
 Tabelleinitialisieren;
 Eintraege;
 DragAcceptFiles(Handle, True);
+//ShowMessage((ParmStr(1)));
 Open(ParamStr(1));
 end;
 
@@ -1005,7 +1070,7 @@ If ACol in [6..13]
    Then CanSelect:= False;
 end;
 
-procedure TKursberechnung.Neunummerieren1Click(Sender: TObject);
+procedure TKursberechnung.Neunumerieren1Click(Sender: TObject);
 Var i: Integer;
 begin
 For i:= 1 to Tabelle.RowCount - 1 do
@@ -1151,10 +1216,14 @@ end;
 procedure TKursberechnung.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
+CanClose:= False;
 If Modified
-   Then If MessageDlg('Datei ' + Caption + ' speichern?',
-                       mtConfirmation, [mbYes, mbNo], 0) = mrYes
-           Then Speichern1.Click;
+   Then case MessageDlg('Datei ' + Caption + ' speichern?',
+                       mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+             mrYes: Speichern1.Click;
+             mrNo: CanClose:= True;
+             End
+   Else CanClose:= True;
 end;
 
 procedure TKursberechnung.Speichern2Click(Sender: TObject);
@@ -1180,6 +1249,24 @@ begin
 s:= Label4.Caption;
 delete(s, 1, 15);
 finde(1, s);
+end;
+
+procedure TKursberechnung.KursserverExecuteMacro(Sender: TObject;
+  Msg: TStrings);
+begin
+{ShowMessage(InttoStr(Msg.Count) + ' Makros!');
+ShowMessage(Sender.ClassName);
+ShowMessage(StartMakros.CommaText);
+{SMakro.Clear;
+For i:= 0 to Msg.Count - 1 do
+    SMakro.Add(Msg[i]);  }
+If Msg = Nil
+   Then Exit;
+SMakro:= Msg.CommaText;
+{If not Gestartet//Msg.Count = 1
+   Then SMakro:= Msg[0];//Nach start des Programms auch TStrings möglich}
+If Gestartet
+   then Ausfuehren(SMakro);
 end;
 
 procedure TKursberechnung.Hakeninvertieren1Click(Sender: TObject);

@@ -1,4 +1,4 @@
-unit Kurs00005;
+unit KursDDE00005;
 
 interface
 
@@ -78,7 +78,7 @@ var
 
 implementation
 
-uses Kurs00001, Kurs00006;
+uses KursDDE00001, KursDDE00006;
 
 
 

@@ -1,18 +1,18 @@
-program Kursgleiche00001;
+program KursgleicheDDE00001;
 
 uses
   Forms,
-  Kurs00001 in 'Kurs00001.pas' {Kursberechnung},
-  Kurs00003 in 'Kurs00003.pas' {Film},
-  Kurs00005 in 'Kurs00005.pas' {Windrose},
-  Kurs00006 in 'Kurs00006.pas' {Zoominfo},
-  Kurs00007 in 'Kurs00007.pas' {Programminfo},
-  Kurs00009 in 'Kurs00009.pas' {Sucheform},
-  Kurs00002 in 'Kurs00002.pas' {Druckvorschau},
-  Kurs00008 in 'Kurs00008.pas' {Formatierung},
-  Kurs00004 in 'Kurs00004.pas' {Bilder},
-  Kurs00010 in 'Kurs00010.pas' {Druckhilfe},
-  Kurs00011 in 'Kurs00011.pas' {Druck};
+  KursDDE00001 in 'KursDDE00001.pas' {Kursberechnung},
+  KursDDE00003 in 'KursDDE00003.pas' {Film},
+  KursDDE00005 in 'KursDDE00005.pas' {Windrose},
+  KursDDE00006 in 'KursDDE00006.pas' {Zoominfo},
+  KursDDE00007 in 'KursDDE00007.pas' {Programminfo},
+  KursDDE00009 in 'KursDDE00009.pas' {Sucheform},
+  KursDDE00002 in 'KursDDE00002.pas' {Druckvorschau},
+  KursDDE00008 in 'KursDDE00008.pas' {Formatierung},
+  KursDDE00004 in 'KursDDE00004.pas' {Bilder},
+  KursDDE00010 in 'KursDDE00010.pas' {Druckhilfe},
+  KursDDE00011 in 'KursDDE00011.pas' {Druck};
 
 {$R *.RES}
 

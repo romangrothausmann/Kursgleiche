@@ -1,4 +1,4 @@
-unit Kurs00003;
+unit KursDDE00003;
 
 interface
 
