@@ -1,4 +1,4 @@
-program Kursgeiche0001;
+program Kursgleiche0001;
 
 uses
   Forms,
@@ -14,15 +14,11 @@ uses
 
 {$R *.RES}
 
-
 begin
- { Film := TFilm.Create(Application);
-  Film.Show;
-  Film.Update;  }
   Application.Initialize;
   Application.CreateForm(TKursberechnung, Kursberechnung);
-  Application.CreateForm(TFilm, Film);
   Application.CreateForm(TVorschau, Vorschau);
+  Application.CreateForm(TFilm, Film);
   Application.CreateForm(TBild, Bild);
   Application.CreateForm(TWindrose, Windrose);
   Application.CreateForm(TZoominfo, Zoominfo);
@@ -31,30 +27,3 @@ begin
   Application.CreateForm(TSucheform, Sucheform);
   Application.Run;
 end.
-
-{begin
-  SplashForm := TSplashForm.Create(Application);
-  SplashForm.Show;
-  SplashForm.Update;
-  Application.Title := 'Marine Adventures Order Entry';
-  Application.HelpFile := 'MASTAPP.HLP';
-  Application.CreateForm(TMastData, MastData);
-  Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TBrPartsForm, BrPartsForm);
-  Application.CreateForm(TQueryCustDlg, QueryCustDlg);
-  Application.CreateForm(TEdPartsForm, EdPartsForm);
-  Application.CreateForm(TBrCustOrdForm, BrCustOrdForm);
-  Application.CreateForm(TEdCustForm, EdCustForm);
-  Application.CreateForm(TEdOrderForm, EdOrderForm);
-  Application.CreateForm(TSearchDlg, SearchDlg);
-  Application.CreateForm(TBrDateForm, BrDateForm);
-  Application.CreateForm(TAboutBox, AboutBox);
-  Application.CreateForm(TPickRpt, PickRpt);
-  Application.CreateForm(TCustomerByInvoiceReport, CustomerByInvoiceReport);
-  Application.CreateForm(TOrdersByDateReport, OrdersByDateReport);
-  Application.CreateForm(TInvoiceByOrderNoReport, InvoiceByOrderNoReport);
-  Application.CreateForm(TPickOrderNoDlg, PickOrderNoDlg);
-  SplashForm.Hide;
-  SplashForm.Free;
-  Application.Run;
-end.}
