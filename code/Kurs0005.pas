@@ -1,11 +1,11 @@
-unit Kurs4;
+unit Kurs0005;
 
 interface
 
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ExtCtrls, UStiftWindr2, TeeProcs, TeEngine, Chart, StdCtrls, Menus, Printers,
+  ExtCtrls, UStiftWindr2, TeeProcs, TeEngine, Chart, StdCtrls, Menus,
   Series, Clipbrd, ComCtrls;
 
 const Breite  = 500;
@@ -15,7 +15,8 @@ const Breite  = 500;
       Markierung= 252;
       z = 3.68;
       Rand = 80;
-
+      cMaxWerte = 500;
+      
 type
   TWindrose = class(TForm)
     Panel1: TPanel;
@@ -34,6 +35,10 @@ type
     Einszueins1: TMenuItem;
     Image1: TImage;
     Zoominfo1: TMenuItem;
+    Kopieren1: TMenuItem;
+    Fensterausschnitt2: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure Series1AfterDrawValues(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -48,6 +53,9 @@ type
     procedure Fensterausschnitt1Click(Sender: TObject);
     procedure Einszueins1Click(Sender: TObject);
     procedure Zoominfo1Click(Sender: TObject);
+    procedure FormHide(Sender: TObject);
+    procedure Fensterausschnitt2Click(Sender: TObject);
+    procedure N2Click(Sender: TObject);
   private
     Stift1, Stift2: TStiftWindr2;
     Malen, Verschieben, Zoomen, Ausschnitt: Boolean;
@@ -61,12 +69,13 @@ var
   UrsprungVorher, EndpunktVorher,
   UrsprungG, EndpunktG: TPoint;
   Verhaeltnis: Real;
+  Gradfeld: Array [1..2, 1..cMaxWerte] of Real;
+  Ortfeld: Array [1..cMaxWerte] of String;
+  Werte: Integer;
 
 implementation
 
-uses Kurs02, Kurs7;
-
-
+uses Kurs0001, Kurs0006, printers;
 
 
 {$R *.DFM}
@@ -123,8 +132,7 @@ End;}
 
 
 Procedure Zeichnevergr(Ursprung, EndPunkt: TPoint);
-Var zx, zy, i, Code, HilfsKoordinate: Integer;
-    Grad: Real;
+Var zx, zy, i, HilfsKoordinate: Integer;
     s: String;
 
 Begin
@@ -192,27 +200,28 @@ If (EndPunkt.x<>Ursprung.x) Or (EndPunkt.y<>Ursprung.y)
      Runter;
      BewegeUm((Abstand1) * Verhaeltnis);
      End;
-    For i:=1 to Form1.Tabelle.RowCount do
-     If Form1.Tabelle.Cells[13,i]=Chr(Markierung)
-      Then
-      Begin
-      Val (Form1.Tabelle.Cells [12, i], Grad, Code);
-      If code = 0
-      Then With Windrose.Stift1 do
-         Begin
-         Hoch;
-         BewegeBis(zx, zy);
-         DreheBis(Grad);
-         Runter;
-         BewegeUm(Breite/2 * Verhaeltnis);
-         Pfeil((Verhaeltnis - 1) + 10);
-         DreheBis(Grad);
-         Str(Grad:0:2 , s);
-         Schreibe(zx, zy, (Breite/2 - Abstand2 - 5) * Verhaeltnis,
-                  Grad, (Form1.Tabelle.Cells [1, i] + ' ' + s + '°'));
-         End;
-      End;
-    ENd;
+     For i:=1 to Werte do
+           If Gradfeld[2,i] = 1   // wert von 'ü'
+           Then //Begin
+           //Val (Form1.Tabelle.Cells [12, i], Grad, Code);
+           //If code = 0{Then}
+                With Windrose.Stift1 do
+                     Begin
+                     Hoch;
+                     BewegeBis(zx, zy);
+                     DreheBis(Gradfeld[1,i]);
+                     Runter;
+                     BewegeUm(Breite/2 * Verhaeltnis);
+                     Pfeil((Verhaeltnis - 1) + 10);
+                     DreheBis(Gradfeld[1,i]);
+                     Str(Gradfeld[1,i]:0:2 , s);
+                     Schreibe(zx, zy, (Breite/2 - Abstand2 - 5) * Verhaeltnis,
+                              Gradfeld[1,i], (Ortfeld[i] + ' ' + s + '°'));
+                     End;
+                //End;
+           //Kursberechnung.Orte.Next;
+           End;
+    //ENd;
   End;
 End;
 
@@ -241,12 +250,27 @@ end;
 
 procedure TWindrose.FormActivate(Sender: TObject);
 begin
+Werte:= 0;
+Windrose.Caption:= 'Windrose für '  +
+  Kursberechnung.UrOrt.Caption+'  '+Kursberechnung.UrBreite.Caption+' / '
+  +Kursberechnung.UrLaenge.Caption;
+Kursberechnung.Orte.First;
+While not Kursberechnung.Orte.Eof do
+      Begin
+      Werte:= Werte + 1;
+      Gradfeld[1,Werte]:= Kursberechnung.Orte['g'];
+      If Kursberechnung.Orte['x'] = 'ü'
+         Then Gradfeld[2,Werte]:= 1
+         Else Gradfeld[2,Werte]:= 0;
+      Ortfeld[Werte]:= Kursberechnung.Orte['Ort'];
+      Kursberechnung.Orte.Next;
+      End;
+Kursberechnung.Orte.Locate('Ort',Kursberechnung.AktuOrt, []);
 Chart1.Refresh;
 end;
 
 procedure TWindrose.Series2AfterDrawValues(Sender: TObject);
-Var i, code: Integer;
-    Grad: Real;
+Var i: Integer;
     s: String;
 Begin
 With Chart2.Canvas do
@@ -271,29 +295,26 @@ For i:=1 to 360 do
    Runter;
    BewegeUm(Abstand1*z);
    End;
-For i:=1 to Form1.Tabelle.RowCount do
- If Form1.Tabelle.Cells[12,i]=Chr(Markierung)
-  Then
-  Begin
-  Val (Form1.Tabelle.Cells [11, i], Grad, Code);
-  If code = 0
-  Then With Stift2 do
-     Begin
-     Hoch;
-     BewegeBis(Breite/2*z + Rand, Breite/2*z + Rand);
-     DreheBis(Grad);
-     Runter;
-     BewegeUm(Breite/2*z);
-     Pfeil(30);
-     DreheBis(Grad);
-     Str(Grad:0:2 , s);
-     Schreibe(Breite/2*z + Rand, Breite/2*z + Rand, (Breite/2 - Abstand2 - 5)*z, Grad,
-              (Form1.Tabelle.Cells [1, i] + ' ' + s + '°'));
-     End;
-  End;
+   For i:=1 to Werte do
+       If Gradfeld[2,i] = 1   // wert von 'ü'
+           Then
+                With Stift2 do
+                     Begin
+                     Hoch;
+                     BewegeBis(Breite/2*z + Rand, Breite/2*z + Rand);
+                     DreheBis(Gradfeld[1,i]);// warum nicht ['g']
+                     Runter;
+                     BewegeUm(Breite/2*z);
+                     Pfeil(30);
+                     DreheBis(Gradfeld[1,i]);
+                     Str(Gradfeld[1,i]:0:2 , s);
+                     Schreibe(Breite/2*z + Rand, Breite/2*z + Rand, (Breite/2 - Abstand2 - 5)*z,
+                        Gradfeld[1,i], (Ortfeld[i] + ' ' + s + '°'));
+                     End;
+                //End;
+           //Kursberechnung.Orte.Next;
+           //End;
 end;
-
-
 
 
 procedure TWindrose.Chart1MouseDown(Sender: TObject; Button: TMouseButton;
@@ -397,9 +418,10 @@ If Ausschnitt
                      Round(EndpunktG.y - (Breite - y)/Verhaeltnis));
    Chart1.Canvas.Rectangle(MausRunter.x,MausRunter.y, x, y);
    Zeichnevergr(UrsprungG, EndpunktG);
+   Ausschnitt:= False;
    End;
 Malen:= False;
-
+Chart1.Refresh;
 end;
 
 procedure TWindrose.gesamteWindrose1Click(Sender: TObject);
@@ -408,7 +430,21 @@ If PrinterSetupDialog1.Execute
    Then
    Begin
    Chart2.Refresh;
-   Chart2.PrintRect(Rect(0,0,Printer.PageWidth-1,Printer.PageWidth-1));
+   Printer.Orientation:= poPortrait;
+   Printer.BeginDoc;
+    Try
+     With Printer.Canvas do
+        begin
+        Font.Name:= 'MS Sans Serif';
+        Font.Size:= 12;
+        Font.Style:= [];
+        TextOut((Printer.PageWidth - TextWidth(Caption)) Div 2,
+                 Printer.PageWidth + 60, Caption);
+        Chart2.Printpartial(Rect(0, 0, Printer.PageWidth - 1, Printer.PageWidth - 1));
+        end;
+     Finally
+     Printer.EndDoc;
+     End;
    End;
 end;
 
@@ -418,10 +454,20 @@ If PrinterSetupDialog1.Execute
    Then
    Begin
    Chart1.Refresh;
-   Chart1.Draw(Image1.Canvas, Rect(0,0, 100, 100));//Rect wird bewirkt nichts!
+   Chart1.Draw(Image1.Canvas, Rect(0,0, 500, 500));//Rect wird bewirkt nichts!
+   Printer.Orientation:= poPortrait;
    Printer.BeginDoc;
     Try
-     Printer.Canvas.Draw(50,50,Image1.Picture.Graphic);
+     With Printer.Canvas do
+      begin
+        Font.Name:= 'MS Sans Serif';
+        Font.Size:= 12;
+        Font.Style:= [];
+        TextOut((Printer.PageWidth - TextWidth('Fensterausschnitt der ' + Caption)) Div 2,
+                 Printer.PageHeight Div 20, 'Fensterausschnitt der ' + Caption);
+        StretchDraw(Rect((Printer.PageWidth - 1000) Div 2, Printer.PageHeight Div 20 + 200,
+        (Printer.PageWidth - 1000) Div 2 + 1000, Printer.PageHeight Div 20 + 1200), Image1.Picture.Graphic);
+      end;
     Finally
      Printer.EndDoc;
      End;
@@ -437,7 +483,23 @@ end;
 
 procedure TWindrose.Zoominfo1Click(Sender: TObject);
 begin
-Zoominfo.ShowModal;
+Chart1.Refresh;
+Zoominfo.Show;
+end;
+
+procedure TWindrose.FormHide(Sender: TObject);
+begin
+Zoominfo.Hide;
+end;
+
+procedure TWindrose.Fensterausschnitt2Click(Sender: TObject);
+begin
+Chart1.CopyToClipboardBitmap;
+end;
+
+procedure TWindrose.N2Click(Sender: TObject);
+begin
+Clipboard.Clear;
 end;
 
 end.

@@ -1,4 +1,4 @@
-unit Kurs7;
+unit Kurs0006;
 
 interface
 
@@ -9,6 +9,7 @@ uses
 type
   TZoominfo = class(TForm)
     Memo1: TMemo;
+    procedure FormHide(Sender: TObject);
   private
     { Private declarations }
   public
@@ -20,6 +21,13 @@ var
 
 implementation
 
+uses Kurs0005;
+
 {$R *.DFM}
+
+procedure TZoominfo.FormHide(Sender: TObject);
+begin
+Windrose.Chart1.Refresh;
+end;
 
 end.

@@ -1,21 +1,42 @@
-unit Kurs3;
+unit Kurs0002;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ComCtrls, ToolWin, ImgList;
+  Qrctrls, QuickRpt, ExtCtrls, Db, DBTables;
 
 type
-  TForm3 = class(TForm)
-    Druckvorschau: TRichEdit;
-    StandardToolBar: TToolBar;
-    ToolButton1: TToolButton;
-    ToolButton5: TToolButton;
-    ToolbarImages: TImageList;
-    PrintDialog1: TPrintDialog;
-    PrinterSetupDialog1: TPrinterSetupDialog;
-    procedure ToolButton1Click(Sender: TObject);
+  TVorschau = class(TForm)
+    QuickRep1: TQuickRep;
+    TitleBand1: TQRBand;
+    Titel: TQRLabel;
+    ColumnHeaderBand1: TQRBand;
+    QRLabel2: TQRLabel;
+    QRLabel3: TQRLabel;
+    QRLabel4: TQRLabel;
+    QRLabel5: TQRLabel;
+    QRLabel6: TQRLabel;
+    DetailBand1: TQRBand;
+    QRDBText1: TQRDBText;
+    QRDBText2: TQRDBText;
+    QRDBText3: TQRDBText;
+    QRDBText4: TQRDBText;
+    QRDBText5: TQRDBText;
+    QRLabel1: TQRLabel;
+    QRLabel7: TQRLabel;
+    QRLabel8: TQRLabel;
+    QRLabel9: TQRLabel;
+    QRLabel10: TQRLabel;
+    QRLabel11: TQRLabel;
+    QRLabel12: TQRLabel;
+    QRDBText6: TQRDBText;
+    QRDBText7: TQRDBText;
+    QRDBText8: TQRDBText;
+    QRDBText9: TQRDBText;
+    QRDBText10: TQRDBText;
+    QRDBText11: TQRDBText;
+    QRDBText12: TQRDBText;
   private
     { Private declarations }
   public
@@ -23,19 +44,10 @@ type
   end;
 
 var
-  Form3: TForm3;
+  Vorschau: TVorschau;
 
 implementation
 
 {$R *.DFM}
-
-
-procedure TForm3.ToolButton1Click(Sender: TObject);
-begin
-IF PrinterSetupDialog1.execute
-    And PrintDialog1.Execute
-   Then Form3.Druckvorschau.Print ('');
-
-end;
 
 end.

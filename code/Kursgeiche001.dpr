@@ -1,27 +1,29 @@
-program Kursgeiche02;
+program Kursgeiche001;
 
 uses
   Forms,
-  Kurs02 in 'Kurs02.pas' {Form1},
-  Kurs2 in 'Kurs2.pas' {Form2},
-  Kurs3 in 'Kurs3.pas' {Form3},
-  Kurs5 in 'Kurs5.pas' {Bild},
-  Kurs4 in 'Kurs4.pas' {Windrose},
-  Kurs7 in 'Kurs7.pas' {Zoominfo},
-  Kurs8 in 'Kurs8.pas' {Film},
-  Kurs9 in 'Kurs9.pas' {Programminfo};
+  Kurs001 in 'Kurs001.pas' {Kursberechnung},
+  Kurs0002 in 'Kurs0002.pas' {Vorschau},
+  Kurs0003 in 'Kurs0003.pas' {Film},
+  Kurs0004 in 'Kurs0004.pas' {Bild},
+  Kurs0005 in 'Kurs0005.pas' {Windrose},
+  Kurs0006 in 'Kurs0006.pas' {Zoominfo},
+  Kurs007 in 'Kurs007.pas' {Programminfo},
+  Kurs0008 in 'Kurs0008.pas' {Eintrag},
+  Kurs0009 in 'Kurs0009.pas' {Sucheform};
 
 {$R *.RES}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TForm2, Form2);
-  Application.CreateForm(TForm3, Form3);
-  Application.CreateForm(TBild, Bild);
-  Application.CreateForm(TZoominfo, Zoominfo);
+  Application.CreateForm(TKursberechnung, Kursberechnung);
+  Application.CreateForm(TVorschau, Vorschau);
   Application.CreateForm(TFilm, Film);
-  Application.CreateForm(TProgramminfo, Programminfo);
+  Application.CreateForm(TBild, Bild);
   Application.CreateForm(TWindrose, Windrose);
+  Application.CreateForm(TZoominfo, Zoominfo);
+  Application.CreateForm(TProgramminfo, Programminfo);
+  Application.CreateForm(TEintrag, Eintrag);
+  Application.CreateForm(TSucheform, Sucheform);
   Application.Run;
 end.

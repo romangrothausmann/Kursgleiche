@@ -1,4 +1,4 @@
-unit Kurs8;
+unit Kurs0003;
 
 interface
 
@@ -36,8 +36,9 @@ end;
 
 procedure TFilm.Timer1Timer(Sender: TObject);
 begin
-ModalResult:= mrOK;
 Timer1.Enabled:= False;
+//Tag:=Tag + 1;
+ModalResult:= mrOK;
 end;
 
 procedure TFilm.FormKeyDown(Sender: TObject; var Key: Word;
@@ -46,8 +47,9 @@ begin
 If (Key = 87)  And (ssAlt in Shift)  // 87 ist Taste 'w'
    Then
    Begin
-   ModalResult:= mrOK;
    Timer1.Enabled:= False;
+   //Tag:= Tag + 1;
+   ModalResult:= mrOK;
    End;
 end;
 
