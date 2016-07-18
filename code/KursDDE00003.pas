@@ -11,7 +11,7 @@ uses
 type
   TFilm = class(TForm)
     Panel1: TPanel;
-    Animate1: TAnimate;
+//    Animate1: TAnimate;
     Timer1: TTimer;
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -33,12 +33,12 @@ implementation
 procedure TFilm.FormShow(Sender: TObject);
 begin
 If Fileexists('Kursgleiche.avi')
-   Then Animate1.Play (1, Animate1.FrameCount, 1)
+   Then // Animate1.Play (1, Animate1.FrameCount, 1)
    Else Begin
         ShowMessage('Filmdatei Kursgleiche.avi fehlt!');
-        Animate1.CommonAVI:= aviNone;
-        Animate1.Width:= 10;
-        Animate1.ParentColor:= True;
+        // Animate1.CommonAVI:= aviNone;
+        // Animate1.Width:= 10;
+        // Animate1.ParentColor:= True;
         End;
 Timer1.Enabled:= True;
 end;

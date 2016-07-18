@@ -30,18 +30,6 @@ object Film: TFilm
     Caption = 'Film fehlt! Gleich gehts weiter!'
     ParentBiDiMode = False
     TabOrder = 0
-    object Animate1: TAnimate
-      Left = 2
-      Top = 2
-      Width = 288
-      Height = 286
-      Cursor = crHourGlass
-      Active = False
-      Color = clWhite
-      FileName = 'Kursgleiche.avi'
-      ParentColor = False
-      StopFrame = 28
-    end
   end
   object Timer1: TTimer
     Enabled = False
