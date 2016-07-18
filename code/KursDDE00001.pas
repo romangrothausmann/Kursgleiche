@@ -96,6 +96,7 @@ type
     N5: TMenuItem;
     procedure Drucken1Click(Sender: TObject);
     procedure Beenden1Click(Sender: TObject);
+    procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     //procedure OrteAfterOpen(DataSet: TDataSet);
     procedure FormShow(Sender: TObject);
     procedure Kurswinkelberechnen1Click(Sender: TObject);
@@ -139,9 +140,6 @@ type
   private
     Anfang: TPoint;
     Doppelklick, rechts, Modified, Gestartet: Boolean;
-  Protected
-    Procedure WMDropFiles(var Msg: TMessage);
-              message wm_DropFiles;
   public
     AktuOrt: TAktuOrt;
     Speicher: TSpeicher;
@@ -594,14 +592,15 @@ Kursberechnung.Caption:= 'Kursberechnung [' + ExtractFileName(Datei) + ']';// is
 Kursberechnung.Kurswinkelberechnen1.Click;
 End;
 
-Procedure TKursberechnung.WMDropFiles(Var Msg: TMessage);
-Var FileName: Array[0..256] of Char;
+Procedure TKursberechnung.FormDropFiles(Sender: TObject; const FileNames: array of String); // http://wiki.freepascal.org/Drag_and_Drop_sample#Files
+Var FileName: String;
 Begin
-DragQueryFile(THandle(Msg.WParam),0,FileName,SizeOf(FileName));
-DragFinish(THandle(Msg.WParam));
-If ExtractFileExt(FileName) = '.csv'
+for FileName in FileNames do
+   begin
+   If ExtractFileExt(FileName) = '.csv'
    Then CSVOpen(FileName)
    Else Kursdateioeffnen(FileName);
+   end;
 End;
 
 procedure TKursberechnung.TabelleMouseDown(Sender: TObject;
@@ -1018,7 +1017,6 @@ If FileExists('Kursdreieck3.bmp')
 Dateiname:= 'Unbennant';
 Tabelleinitialisieren;
 Eintraege;
-DragAcceptFiles(Handle, True);
 //ShowMessage((ParmStr(1)));
 Open(ParamStr(1));
 end;

@@ -3,6 +3,7 @@ object Kursberechnung: TKursberechnung
   Height = 338
   Top = 333
   Width = 544
+  AllowDropFiles = True
   BorderWidth = 5
   Caption = 'Kursberechnung [Unbenannt]'
   ClientHeight = 313
@@ -16,6 +17,7 @@ object Kursberechnung: TKursberechnung
   Menu = MainMenu1
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnDropFiles = FormDropFiles
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.6.0.4'
