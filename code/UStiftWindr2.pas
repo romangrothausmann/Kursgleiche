@@ -4,7 +4,7 @@ unit UStiftWindr2;
 
 interface
 
-Uses graphics,TeCanvas, Forms;
+Uses graphics, Forms;
 
 Type
  TStiftwindr2 = class(TObject)
@@ -12,14 +12,14 @@ Type
   w: Real;
   x, y: Integer;
   vRunter: Boolean;
-  Ort: TCanvas3D;
+  Ort: TCanvas;
  public
   Procedure BewegeBis(zx,zy: Real);
   Procedure DreheBis(a: Real);
   Procedure BewegeUm(l: Real);
   Procedure Hoch;
   Procedure Runter;
-  Procedure Init(Bild: TCanvas3D);
+  Procedure Init(Bild: TCanvas);
   Procedure Pfeil(g: Real);
   Procedure Schreibe(x1, y1, d, a: Real; s: String);
  End;
@@ -61,7 +61,7 @@ Begin
 vRunter:=True;
 End;
 
-Procedure TStiftwindr2.Init(Bild: TCanvas3D);
+Procedure TStiftwindr2.Init(Bild: TCanvas);
 Begin
 Ort:=Bild;
 W:=0;
@@ -94,7 +94,7 @@ If (0 < a) And (a < 179)
   DreheBis(a - 90);
   BewegeUm(Ort.TextHeight(S) - 2);
   DreheBis(a);
-  Ort.RotateLabel(x, y, s, (90 - Round(w)));
+//  Ort.RotateLabel(x, y, s, (90 - Round(w)));
   End
   Else
   Begin
@@ -103,7 +103,7 @@ If (0 < a) And (a < 179)
   DreheBis(a + 90);
   BewegeUm(Ort.TextHeight(S) - 2);
   DreheBis(a - 180);
-  Ort.RotateLabel(x, y, s, (90 - Round(w)));
+//  Ort.RotateLabel(x, y, s, (90 - Round(w)));
   End;
 End;
 
