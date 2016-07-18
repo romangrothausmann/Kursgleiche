@@ -2,3 +2,6 @@
 *.lps
 
 *.compiled
+*.o
+*.ppu
+*.bak
