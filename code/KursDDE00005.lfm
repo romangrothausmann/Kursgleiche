@@ -1,146 +1,123 @@
 object Windrose: TWindrose
-  Left = 431
-  Top = 104
+  Left = 220
+  Height = 529
+  Top = 264
+  Width = 510
   AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   BorderWidth = 5
   Caption = 'Windrose'
-  ClientHeight = 529
+  ClientHeight = 504
   ClientWidth = 510
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
   Menu = MainMenu1
-  Position = poScreenCenter
   OnActivate = FormActivate
   OnCreate = FormCreate
   OnHide = FormHide
-  PixelsPerInch = 96
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
   object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 510
+    Left = 5
     Height = 510
+    Top = 5
+    Width = 500
     Align = alTop
     AutoSize = True
     BevelInner = bvLowered
     BorderWidth = 3
     Caption = 'Panel1'
+    ClientHeight = 510
+    ClientWidth = 500
     TabOrder = 0
     object Chart1: TChart
-      Left = 3
-      Top = 3
-      Width = 500
+      Left = 5
       Height = 500
-      AllowPanning = pmNone
+      Top = 5
+      Width = 500
       AllowZoom = False
-      BackWall.Brush.Style = bsClear
-      BackWall.Pen.Visible = False
-      Title.Font.Charset = DEFAULT_CHARSET
+      AxisList = <      
+        item
+          Minors = <>
+          Title.LabelFont.Orientation = 900
+        end      
+        item
+          Alignment = calBottom
+          Minors = <>
+        end>
+      AxisVisible = False
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Frame.Visible = False
+      Title.Brush.Color = clBtnFace
       Title.Font.Color = clBlack
       Title.Font.Height = -11
       Title.Font.Name = 'Arial'
-      Title.Font.Style = []
       Title.Text.Strings = (
         'TChart'
       )
-      Title.Visible = False
-      AxisVisible = False
-      Frame.Visible = False
-      Legend.Visible = False
-      View3D = False
-      View3DOptions.Zoom = 28
-      View3DWalls = False
-      TabOrder = 0
       OnMouseDown = Chart1MouseDown
       OnMouseMove = Chart1MouseMove
       OnMouseUp = Chart1MouseUp
       object Series1: TLineSeries
-        Marks.ArrowLength = 8
         Marks.Visible = False
-        AfterDrawValues = Series1AfterDrawValues
-        SeriesColor = clSilver
-        Pointer.InflateMargins = True
-        Pointer.Style = psRectangle
+        LinePen.Color = clSilver
         Pointer.Visible = False
-        XValues.DateTime = False
-        XValues.Name = 'X'
-        XValues.Multiplier = 1
-        XValues.Order = loAscending
-        YValues.DateTime = False
-        YValues.Name = 'Y'
-        YValues.Multiplier = 1
-        YValues.Order = loNone
       end
     end
   end
   object Panel2: TPanel
     Left = 40
+    Height = 361
     Top = 136
     Width = 457
-    Height = 361
     Caption = 'Panel2'
+    ClientHeight = 361
+    ClientWidth = 457
     TabOrder = 1
     Visible = False
     object Chart2: TChart
       Left = 7
+      Height = 2000
       Top = 5
       Width = 2000
-      Height = 2000
       AllowZoom = False
-      BackWall.Brush.Style = bsClear
-      BackWall.Pen.Visible = False
-      Title.Font.Charset = DEFAULT_CHARSET
+      AxisList = <      
+        item
+          Minors = <>
+          Title.LabelFont.Orientation = 900
+        end      
+        item
+          Alignment = calBottom
+          Minors = <>
+        end>
+      AxisVisible = False
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Frame.Visible = False
+      Title.Brush.Color = clBtnFace
       Title.Font.Color = clBlack
       Title.Font.Height = -11
       Title.Font.Name = 'Arial'
-      Title.Font.Style = []
       Title.Text.Strings = (
         'TChart'
       )
-      Title.Visible = False
-      AxisVisible = False
-      Frame.Visible = False
-      Legend.Visible = False
-      ScaleLastPage = False
-      View3D = False
-      View3DWalls = False
       Color = clWhite
-      TabOrder = 0
-      object Image1: TImage
-        Left = 80
-        Top = 72
-        Width = 500
-        Height = 500
-      end
       object Series2: TLineSeries
-        Marks.ArrowLength = 8
         Marks.Visible = False
-        AfterDrawValues = Series2AfterDrawValues
-        SeriesColor = clWhite
-        Pointer.InflateMargins = True
-        Pointer.Style = psRectangle
+        LinePen.Color = clWhite
         Pointer.Visible = False
-        XValues.DateTime = False
-        XValues.Name = 'X'
-        XValues.Multiplier = 1
-        XValues.Order = loAscending
-        YValues.DateTime = False
-        YValues.Name = 'Y'
-        YValues.Multiplier = 1
-        YValues.Order = loNone
       end
     end
   end
   object StatusBar1: TStatusBar
-    Left = 0
-    Top = 510
-    Width = 510
+    Left = 5
     Height = 19
+    Top = 480
+    Width = 500
     Panels = <    
       item
         Width = 110
@@ -154,10 +131,9 @@ object Windrose: TWindrose
     SimplePanel = False
   end
   object MainMenu1: TMainMenu
-    BiDiMode = bdLeftToRight
-    ParentBiDiMode = False
-    Left = 32
-    Top = 24
+    ParentBidiMode = False
+    left = 32
+    top = 24
     object Drucken1: TMenuItem
       Caption = '&Drucken'
       GroupIndex = 1
@@ -208,7 +184,7 @@ object Windrose: TWindrose
     end
   end
   object PrinterSetupDialog1: TPrinterSetupDialog
-    Left = 64
-    Top = 24
+    left = 64
+    top = 24
   end
 end

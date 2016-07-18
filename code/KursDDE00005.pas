@@ -7,8 +7,8 @@ interface
 
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ExtCtrls, UStiftWindr2, TeeProcs, TeEngine, Chart, StdCtrls, Menus,
-  Series, Clipbrd, ComCtrls, Printers;
+  ExtCtrls, UStiftWindr2, TAGraph, StdCtrls, Menus,
+  TASeries, Clipbrd, ComCtrls, Printers, PrintersDlgs;
 
 const Breite  = 500;
       Abstand1= 10;
@@ -20,11 +20,14 @@ const Breite  = 500;
       cMaxWerte = 500;
       
 type
+
+  { TWindrose }
+
   TWindrose = class(TForm)
     Panel1: TPanel;
     MainMenu1: TMainMenu;
     Drucken1: TMenuItem;
-    Chart1: TChart;
+    Chart1: TChart; // http://wiki.freepascal.org/TAChart // http://wiki.freepascal.org/Lazarus_Components
     Series1: TLineSeries;
     Panel2: TPanel;
     Chart2: TChart;
@@ -261,10 +264,10 @@ procedure TWindrose.FormCreate(Sender: TObject);
 begin
 Stift1:= TStiftWindr2.Create;
 Stift1.Init(chart1.Canvas);
-Series1.FillSampleValues(20);
+// Series1.FillSampleValues(20);
 Stift2:= TStiftWindr2.Create;
 Stift2.Init(chart2.Canvas);
-Series2.FillSampleValues(20);
+// Series2.FillSampleValues(20);
 Malen:= False;
 Verschieben:= False;
 Zoomen:= False;
@@ -394,7 +397,7 @@ Printer.BeginDoc;
      Font.Style:= [];
      TextOut((Printer.PageWidth - TextWidth(Caption)) Div 2,
               Printer.PageWidth + 60, Caption);
-     Chart2.Printpartial(Rect(0, 0, Printer.PageWidth - 1, Printer.PageWidth - 1));
+     Chart2.PaintOnCanvas(Printer.Canvas, Rect(0, 0, Printer.PageWidth - 1, Printer.PageWidth - 1)); // http://wiki.freepascal.org/TAChart_Demos#print
      end;
  Finally
  Printer.EndDoc;
@@ -404,7 +407,7 @@ end;
 procedure TWindrose.Fensterausschnitt1Click(Sender: TObject);
 begin
 Chart1.Refresh;
-Chart1.Draw(Image1.Canvas, Rect(0,0, 500, 500));//Rect wird bewirkt nichts!
+Chart1.PaintOnCanvas(Image1.Canvas, Rect(0,0, 500, 500));//Rect wird bewirkt nichts!
 Printer.Orientation:= poPortrait;
 Printer.BeginDoc;
  Try
