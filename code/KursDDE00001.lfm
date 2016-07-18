@@ -1,137 +1,148 @@
 object Kursberechnung: TKursberechnung
-  Left = 168
-  Top = 337
-  AutoScroll = False
+  Left = 340
+  Height = 338
+  Top = 333
+  Width = 544
   BorderWidth = 5
   Caption = 'Kursberechnung [Unbenannt]'
-  ClientHeight = 300
-  ClientWidth = 559
+  ClientHeight = 313
+  ClientWidth = 544
   Color = clBtnFace
   Constraints.MinHeight = 338
   Constraints.MinWidth = 544
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
   Menu = MainMenu1
-  Position = poScreenCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
   object Label3: TLabel
     Left = 176
-    Top = 282
-    Width = 3
-    Height = 13
+    Height = 1
+    Top = 332
+    Width = 1
     Anchors = [akLeft, akBottom]
+    ParentColor = False
   end
   object Label4: TLabel
     Left = 176
-    Top = 218
-    Width = 3
-    Height = 13
+    Height = 1
+    Top = 268
+    Width = 1
     Anchors = [akLeft, akBottom]
+    ParentColor = False
     OnDblClick = Label4DblClick
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 210
-    Width = 169
     Height = 89
+    Top = 248
+    Width = 169
     Anchors = [akLeft, akBottom]
     Caption = 'Koordinaten des Ursprungsortes'
+    ClientHeight = 74
+    ClientWidth = 165
     TabOrder = 1
     object Label1: TLabel
       Left = 13
-      Top = 34
-      Width = 60
       Height = 13
+      Top = 34
+      Width = 74
       Caption = 'geogr. Breite'
+      ParentColor = False
     end
     object Label2: TLabel
       Left = 94
-      Top = 34
-      Width = 63
       Height = 13
+      Top = 34
+      Width = 78
       Caption = 'geogr. Länge'
+      ParentColor = False
     end
     object UrOrt: TLabel
       Left = 6
-      Top = 10
-      Width = 3
-      Height = 13
+      Height = 1
       Hint = 'Doppelklick zum Suchen'
+      Top = 10
+      Width = 1
+      ParentColor = False
       OnDblClick = UrOrtDblClick
     end
     object UrBreite: TLabel
       Left = 70
+      Height = 1
       Top = 50
-      Width = 3
-      Height = 13
+      Width = 1
       Alignment = taRightJustify
+      ParentColor = False
     end
     object UrLaenge: TLabel
       Left = 154
+      Height = 1
       Top = 50
-      Width = 3
-      Height = 13
+      Width = 1
       Alignment = taRightJustify
+      ParentColor = False
     end
   end
   object Panel1: TPanel
-    Left = 477
-    Top = 218
-    Width = 81
+    Left = 462
     Height = 81
+    Top = 256
+    Width = 81
     Anchors = [akRight, akBottom]
     BevelInner = bvLowered
     BorderWidth = 2
     Caption = 'Bild fehlt hier!'
+    ClientHeight = 81
+    ClientWidth = 81
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
     object Image2: TImage
-      Left = 2
-      Top = 2
-      Width = 73
+      Left = 4
       Height = 73
       Hint = 'Zum Vergrößern klicken'
+      Top = 4
+      Width = 73
       Align = alClient
+      OnClick = Image2Click
       ParentShowHint = False
       ShowHint = True
       Stretch = True
-      OnClick = Image2Click
     end
   end
   object StaticText1: TStaticText
-    Left = 417
-    Top = 282
-    Width = 55
+    Left = 402
     Height = 17
+    Top = 320
+    Width = 55
     Anchors = [akRight, akBottom]
     Caption = 'Zeichnung'
     TabOrder = 3
   end
   object Tabelle: TStringGrid
     Left = 0
+    Height = 241
     Top = 0
-    Width = 558
-    Height = 203
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    Width = 543
+    Anchors = [akTop, akLeft, akRight, akBottom]
     ColCount = 14
     DefaultColWidth = 100
-    RowCount = 2
-    Font.Charset = DEFAULT_CHARSET
     Font.Color = clBtnText
     Font.Height = -12
     Font.Name = 'MS Sans Serif'
-    Font.Style = []
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowMoving, goEditing, goThumbTracking]
     ParentFont = False
     PopupMenu = PopupMenu1
+    RowCount = 2
     TabOrder = 0
+    TitleFont.Color = clBtnText
+    TitleFont.Height = -12
+    TitleFont.Name = 'MS Sans Serif'
     OnDblClick = TabelleDblClick
     OnDrawCell = TabelleDrawCell
     OnMouseDown = TabelleMouseDown
@@ -144,8 +155,8 @@ object Kursberechnung: TKursberechnung
     )
   end
   object MainMenu1: TMainMenu
-    Left = 192
-    Top = 208
+    left = 192
+    top = 208
     object Datei: TMenuItem
       Caption = '&Datei'
       object Neu1: TMenuItem
@@ -276,20 +287,20 @@ object Kursberechnung: TKursberechnung
     end
   end
   object offnen: TOpenDialog
-    Filter = 'Kurs Dateien (*.krs)|*.krs|CSV Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*'
     Title = 'Tabelle öffnen'
-    Left = 224
-    Top = 208
+    Filter = 'Kurs Dateien (*.krs)|*.krs|CSV Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*'
+    left = 224
+    top = 208
   end
   object speichern: TSaveDialog
-    Filter = 'Kurs Dateien (*.krs)|*.krs|CSV Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*'
     Title = 'Tabelle speichern unter'
-    Left = 256
-    Top = 208
+    Filter = 'Kurs Dateien (*.krs)|*.krs|CSV Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*'
+    left = 256
+    top = 208
   end
   object PopupMenu1: TPopupMenu
-    Left = 288
-    Top = 208
+    left = 288
+    top = 208
     object Zeilekopieren1: TMenuItem
       Caption = 'Diese &Zeile kopieren'
       OnClick = Zeilekopieren1Click

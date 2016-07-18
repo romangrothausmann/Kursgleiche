@@ -43,6 +43,9 @@ type
                     Name: String;
                     End;
   TSpeicher = Array of Array [0..13] of String ;
+
+  { TKursberechnung }
+
   TKursberechnung = class(TForm)
     GroupBox1: TGroupBox;
     Label1: TLabel;
