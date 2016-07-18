@@ -1,10 +1,12 @@
 unit KursDDE00005;
 
+{$MODE Delphi}
+
 interface
 
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, UStiftWindr2, TeeProcs, TeEngine, Chart, StdCtrls, Menus,
   Series, Clipbrd, ComCtrls, Printers;
 
@@ -82,7 +84,7 @@ uses KursDDE00001, KursDDE00006;
 
 
 
-{$R *.DFM}
+{$R *.lfm}
 
 
 

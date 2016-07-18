@@ -1,9 +1,11 @@
 unit KursDDE00002;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, Menus, StdCtrls, Printers, ComCtrls;
 
 Const cBreite = 1000;
@@ -74,7 +76,7 @@ uses KursDDE00001, KursDDE00008, KursDDE00010, KursDDE00011;
 
 
 
-{$R *.DFM}
+{$R *.lfm}
 
 
 

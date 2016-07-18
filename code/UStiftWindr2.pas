@@ -1,5 +1,7 @@
 unit UStiftWindr2;
 
+{$MODE Delphi}
+
 interface
 
 Uses graphics,TeCanvas, Forms;

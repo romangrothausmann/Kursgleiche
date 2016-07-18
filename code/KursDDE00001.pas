@@ -1,10 +1,12 @@
 unit KursDDE00001;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  DBTables, Math, Db, Menus, Grids, DBGrids, StdCtrls, ExtCtrls, ShellAPI,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  sqldb, Math, Db, Menus, Grids, DBGrids, StdCtrls, ExtCtrls,
   DdeMan;
 
 Const //cMaxWerte = 500;
@@ -156,7 +158,7 @@ implementation
 uses KursDDE00002, KursDDE00003, KursDDE00004, KursDDE00005,
      KursDDE00007, KursDDE00008, KursDDE00009;
 
-{$R *.DFM}
+{$R *.lfm}
 
 Procedure TabelleInitialisieren;
 Var i: Integer;

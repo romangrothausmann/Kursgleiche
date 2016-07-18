@@ -1,9 +1,11 @@
 unit KursDDE00011;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls;
 
 type
@@ -34,7 +36,7 @@ implementation
 
 uses KursDDE00002, KursDDE00001;
 
-{$R *.DFM}
+{$R *.lfm}
 
 
 procedure TDruck.FormShow(Sender: TObject);

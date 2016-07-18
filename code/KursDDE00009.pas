@@ -1,9 +1,11 @@
 unit KursDDE00009;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, DBCtrls, DB, ExtCtrls;
 
 type
@@ -33,7 +35,7 @@ implementation
 uses KursDDE00001;
 
 
-{$R *.DFM}
+{$R *.lfm}
 
 Function Suche(s, t: String; Gross, Anf: boolean): boolean;
 Begin

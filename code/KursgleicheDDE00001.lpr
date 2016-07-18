@@ -1,7 +1,9 @@
 program KursgleicheDDE00001;
 
+{$MODE Delphi}
+
 uses
-  Forms,
+  Forms, Interfaces,
   KursDDE00001 in 'KursDDE00001.pas' {Kursberechnung},
   KursDDE00003 in 'KursDDE00003.pas' {Film},
   KursDDE00005 in 'KursDDE00005.pas' {Windrose},
@@ -14,7 +16,7 @@ uses
   KursDDE00010 in 'KursDDE00010.pas' {Druckhilfe},
   KursDDE00011 in 'KursDDE00011.pas' {Druck};
 
-{$R *.RES}
+{$R *.res}
 
 begin
   Application.Initialize;

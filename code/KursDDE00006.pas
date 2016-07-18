@@ -1,9 +1,11 @@
 unit KursDDE00006;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls;
 
 type
@@ -24,7 +26,7 @@ implementation
 uses KursDDE00005;
 
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure TZoominfo.FormHide(Sender: TObject);
 begin
