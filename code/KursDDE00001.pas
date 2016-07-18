@@ -6,8 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  sqldb, Math, Db, Menus, Grids, DBGrids, StdCtrls, ExtCtrls,
-  DdeMan;
+  sqldb, Math, Db, Menus, Grids, DBGrids, StdCtrls, ExtCtrls;
 
 Const //cMaxWerte = 500;
       Winkel = 1;
@@ -89,7 +88,6 @@ type
     ZeilenEinfgen1: TMenuItem;
     Speicherlschen1: TMenuItem;
     Speichern2: TMenuItem;
-    Kursserver: TDdeServerConv;
     AlleHakenentfernen1: TMenuItem;
     Hakeninvertieren1: TMenuItem;
     N5: TMenuItem;

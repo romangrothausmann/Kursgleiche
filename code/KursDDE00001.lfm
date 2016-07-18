@@ -299,9 +299,4 @@ object Kursberechnung: TKursberechnung
       OnClick = DieseZeilelschen1Click
     end
   end
-  object Kursserver: TDdeServerConv
-    OnExecuteMacro = KursserverExecuteMacro
-    Left = 320
-    Top = 208
-  end
 end
