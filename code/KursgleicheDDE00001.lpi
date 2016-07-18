@@ -31,10 +31,13 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="Printer4Lazarus"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPackages>
     <Units Count="13">
       <Unit0>
@@ -74,7 +77,9 @@
       <Unit7>
         <Filename Value="KursDDE00002.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="Druckvorschau"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit7>
       <Unit8>
         <Filename Value="KursDDE00008.pas"/>

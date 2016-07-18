@@ -6,7 +6,7 @@ interface
 
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ExtCtrls, Menus, StdCtrls, Printers, ComCtrls;
+  ExtCtrls, Menus, StdCtrls, Printers, ComCtrls, PrintersDlgs;
 
 Const cBreite = 1000;
       Auswahl = 'ü';
@@ -15,6 +15,9 @@ Const cBreite = 1000;
       cAbstand = 2;
 
 type
+
+  { TDruckvorschau }
+
   TDruckvorschau = class(TForm)
     MainMenu1: TMainMenu;
     Datei1: TMenuItem;
