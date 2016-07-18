@@ -10,7 +10,7 @@ uses
 
 type
   TProgramminfo = class(TForm)
-    RichEdit1: TRichEdit;
+    RichEdit1: TMemo; // http://wiki.freepascal.org/RichMemo // http://wiki.freepascal.org/RichView
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -30,11 +30,11 @@ begin
 With RichEdit1 do
      Begin
      Lines.Clear;
-     SelAttributes.Style := [fsBold, fsUnderline];
-     SelAttributes.Size:= 10;
+//     SelAttributes.Style := [fsBold, fsUnderline];
+//     SelAttributes.Size:= 10;
      Lines.Add('Programm Kursberechnung');
-     SelAttributes.Style := [];
-     SelAttributes.Size:= 8;
+//     SelAttributes.Style := [];
+//     SelAttributes.Size:= 8;
      Lines.Add('');
      Lines.Add('Copyright © 6.3.2002 Roman Grothausmann, Version 4.03');
      Lines.Add('');
