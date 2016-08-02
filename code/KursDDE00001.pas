@@ -11,22 +11,22 @@ uses
 Const //cMaxWerte = 500;
       Winkel = 1;
       Indexdatei = 'KursindexDBF.mdx';
-      //Haken = 'ü';
+      //Haken = 'Ã¼';
       MeinOrt = 'Bochum-Dahlhausen';
-      Auswahl = 'ü';
+      Auswahl = 'Ã¼';
       SpaltenTitel0 = '#';
       SpaltenTitel1 = 'Ort';
       SpaltenTitel2 = 'geogr. Breite';
-      SpaltenTitel3 = 'geogr. Länge';
+      SpaltenTitel3 = 'geogr. LÃ¤nge';
       SpaltenTitel4 = 'Land';
       SpaltenTitel5 = 'Besonderheit';
-      SpaltenTitel6 = 'Lat. [°]';
-      SpaltenTitel7 = 'Lon. [°]';
-      SpaltenTitel8 = 'DLon. l [°]';
-      SpaltenTitel9 = 'Dist. e [°]';
+      SpaltenTitel6 = 'Lat. [Â°]';
+      SpaltenTitel7 = 'Lon. [Â°]';
+      SpaltenTitel8 = 'DLon. l [Â°]';
+      SpaltenTitel9 = 'Dist. e [Â°]';
       SpaltenTitel10= 'Dist. e [km]';
-      SpaltenTitel11= 'Alpha a [°]';
-      SpaltenTitel12= 'Kurs g [°]';
+      SpaltenTitel11= 'Alpha a [Â°]';
+      SpaltenTitel12= 'Kurs g [Â°]';
       SpaltenBreite0 = 30;
       SpaltenBreite1 = 165;
       SpaltenBreite2 = 90;
@@ -204,8 +204,8 @@ For i:= 1 to Kursberechnung.Tabelle.RowCount - 1 do
        Then l:= Kursberechnung.Tabelle.Canvas.TextWidth(Kursberechnung.Tabelle.Cells[0, i]);
 Kursberechnung.Tabelle.ColWidths[0]:= 10 + l;
 If Kursberechnung.Tabelle.RowCount = 2
-   Then Kursberechnung.Label3.Caption:= 'Die Tabelle enthält einen Eintrag'
-   Else Kursberechnung.Label3.Caption:= Format('Die Tabelle enthält %d Einträge', [Kursberechnung.Tabelle.RowCount - 1]);
+   Then Kursberechnung.Label3.Caption:= 'Die Tabelle enthÃ¤lt einen Eintrag'
+   Else Kursberechnung.Label3.Caption:= Format('Die Tabelle enthÃ¤lt %d EintrÃ¤ge', [Kursberechnung.Tabelle.RowCount - 1]);
 End;
 
 Function Finde(a: Integer; s: String): TAktuOrt;
@@ -245,13 +245,13 @@ begin
 s:= UpperCase(s);
 If Length(s) > 0
    Then For I:= 0 to Length(s) do
-            Begin If s[i] = 'Ä'
+            Begin If s[i] = 'Ã„'
                      Then s[i]:= 'A';
-                  If s[i] = 'Ö'
+                  If s[i] = 'Ã–'
                      Then s[i]:= 'O';
-                  If s[i] = 'Ü'
+                  If s[i] = 'Ãœ'
                      Then s[i]:= 'U';
-                  If s[i] = 'ß'
+                  If s[i] = 'ÃŸ'
                      Then Begin
                           s[i]:= 'S';
                           Insert('S', s, i);
@@ -472,7 +472,7 @@ With Kursberechnung.Tabelle.Canvas do
                Kursberechnung.Tabelle.CellRect(0, Zeile),
                clBtnFace,
                Kursberechnung.Tabelle.Canvas);
-     //Schriftgröße zurück setzen?
+     //SchriftgrÃ¶ÃŸe zurÃ¼ck setzen?
      End;
 End;
 
@@ -644,7 +644,7 @@ Begin
 Grad:= 0;
 Minuten:= 0;
 Sekunde:= 0;
-x:= Pos ('°', c);
+x:= Pos ('Â°', c);
 y:= Pos ('''', c);
 z:= Pos ('"', c);
 w:= Pos ('W', c);
@@ -734,8 +734,8 @@ Var CsvDatei: Textfile;
  Function Pruefe(s: String): String;
  Begin
  If Pos(';', s) <> 0
-    Then ShowMessage('Um eine Tabelle als CSV-Datei zu speichern, dürfen '
-                     + 'in ihr keine Semikola vorkommen! Eine Zelle enthält aber diesen Text: "'
+    Then ShowMessage('Um eine Tabelle als CSV-Datei zu speichern, dÃ¼rfen '
+                     + 'in ihr keine Semikola vorkommen! Eine Zelle enthÃ¤lt aber diesen Text: "'
                      + s + '"  Das Semikolon wird nicht in der CSV-Datei gespeichert!');
  Delete(s, Pos(';', s), 1);
  Result:= s + ';';
@@ -789,7 +789,7 @@ Begin
 e:= Pos(']', t);
 If e <= a
    Then Begin
-        MessageDlg('Kann Makros nicht ausführen!', mtError, [mbOk], 0);
+        MessageDlg('Kann Makros nicht ausfÃ¼hren!', mtError, [mbOk], 0);
         Exit;
         End;
 s:= copy(t,a + 1, e - a - 1);
@@ -812,7 +812,7 @@ Else If pos('print', s) <> 0
         Then Druckvorschau.ExternDrucken
 Else If pos('windrose_drucken', s) <> 0
         Then Begin
-             Windrose.Caption:= 'Windrose für '  + Kursberechnung.UrOrt.Caption
+             Windrose.Caption:= 'Windrose fÃ¼r '  + Kursberechnung.UrOrt.Caption
                + '  ' + Kursberechnung.UrBreite.Caption + ' / '
                + Kursberechnung.UrLaenge.Caption;
              Windrose.gesamteWindrose1.Click;
@@ -852,9 +852,9 @@ Var i: Integer;
     e, e2, Lm, h, n, a, g: Real;
 begin
 If UrBreite.Caption = ''
-   then ShowMessage('Um die Berechnung ausführen zu können, müssen Sie erst'
+   then ShowMessage('Um die Berechnung ausfÃ¼hren zu kÃ¶nnen, mÃ¼ssen Sie erst'
                     + ' einen Urort festlegen! Klicken Sie dazu auf einen Ort in der Tabelle doppelt.'
-                    + ' Für diesen Ort müssen Koordinaten eingetragen sein!')
+                    + ' FÃ¼r diesen Ort mÃ¼ssen Koordinaten eingetragen sein!')
    Else With Tabelle do
         Begin
         UrBreiteR:= Umrechnen (UrBreite.Caption);
@@ -922,7 +922,7 @@ end;
 
 procedure TKursberechnung.Windroseerstellen1Click(Sender: TObject);
 begin
-Windrose.Caption:= 'Windrose für '  +
+Windrose.Caption:= 'Windrose fÃ¼r '  +
   UrOrt.Caption+'  '+UrBreite.Caption+' / '+UrLaenge.Caption;
 Windrose.Show;
 end;
@@ -997,7 +997,7 @@ If Speichern.Execute
                      3: KursdateiSpeichern(Speichern.FileName);
                      End;
         If FileExists(Speichern.FileName)
-           Then If MessageDlg('Die Datei existiert bereits! Datei überschreiben?',
+           Then If MessageDlg('Die Datei existiert bereits! Datei Ã¼berschreiben?',
                    mtConfirmation, [mbYes, mbNo], 0) = mrNo
                    Then Exit;
         If ExtractFileExt(Speichern.FileName) = '.csv'
@@ -1010,7 +1010,7 @@ end;
 
 procedure TKursberechnung.FormCreate(Sender: TObject);
 begin
-SetCurrentDir(ExtractFileDir(ParamStr(0)));//Wichtig für Dateiverbindung
+SetCurrentDir(ExtractFileDir(ParamStr(0)));//Wichtig fÃ¼r Dateiverbindung
 If FileExists('Kursdreieck3.bmp')
    Then Image2.Picture.LoadFromFile('Kursdreieck3.bmp')
    Else ShowMessage('Bilddatei Kursdreieck3.bmp fehlt!');
@@ -1141,7 +1141,7 @@ If Aktuort.Name = Tabelle.Cells[1, Zeile]
         Aktuort.Spalte:= 1;
         Label4.Caption:= '';
         end;
-//ShowMessage('Eintrag Nummer ' + Tabelle.Cells[0, Zeile] + ' wird gelöscht!');
+//ShowMessage('Eintrag Nummer ' + Tabelle.Cells[0, Zeile] + ' wird gelÃ¶scht!');
 If Tabelle.RowCount <= 2
    Then Begin
         for i:= 1 to Tabelle.ColCount - 1 do
@@ -1265,7 +1265,7 @@ If Msg = Nil
    Then Exit;
 SMakro:= Msg.CommaText;
 {If not Gestartet//Msg.Count = 1
-   Then SMakro:= Msg[0];//Nach start des Programms auch TStrings möglich}
+   Then SMakro:= Msg[0];//Nach start des Programms auch TStrings mÃ¶glich}
 If Gestartet
    then Ausfuehren(SMakro);
 end;

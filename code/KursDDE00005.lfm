@@ -164,7 +164,7 @@ object Windrose: TWindrose
         Caption = '-'
       end
       object N2: TMenuItem
-        Caption = '&Zwischenablage löschen'
+        Caption = '&Zwischenablage lÃ¶schen'
         OnClick = N2Click
       end
     end

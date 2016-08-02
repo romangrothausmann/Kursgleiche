@@ -133,7 +133,7 @@ If (EndPunkt.x<>Ursprung.x) Or (EndPunkt.y<>Ursprung.y)
           Then Begin
                zx:= Round((- Ursprung.x + Breite/2) * Verhaeltnis);
                zy:= Round((- Ursprung.y + Breite/2) * Verhaeltnis);
-               Windrose.StatusBar1.Panels[0].Text := Format('Vergrößerung: %f', [Verhaeltnis]);
+               Windrose.StatusBar1.Panels[0].Text := Format('VergrÃ¶ÃŸerung: %f', [Verhaeltnis]);
                Windrose.StatusBar1.Panels[1].Text :=
                         Format('Fensterausschnitt: %d/%d - %d/%d', [Ursprung.x, Ursprung.y, Endpunkt.x, Endpunkt.y]);
                With Windrose.Chart1.Canvas do
@@ -163,7 +163,7 @@ If (EndPunkt.x<>Ursprung.x) Or (EndPunkt.y<>Ursprung.y)
                         BewegeUm((Abstand1) * Verhaeltnis);
                         End;
                 For i:= 1 to Kursberechnung.Tabelle.RowCount - 1 do
-                    If Kursberechnung.Tabelle.Cells[13,i] = Auswahl   // wert von 'ü'
+                    If Kursberechnung.Tabelle.Cells[13,i] = Auswahl   // wert von 'Ã¼'
                        Then Begin
                             Val (Kursberechnung.Komma(Kursberechnung.Tabelle.Cells [12, i]), Grad, Code);
                             If code = 0
@@ -178,7 +178,7 @@ If (EndPunkt.x<>Ursprung.x) Or (EndPunkt.y<>Ursprung.y)
                                          DreheBis(Grad);
                                          Str(Grad:0:2 , s);
                                          Schreibe(zx, zy, (Breite/2 - Abstand2 - 5) * Verhaeltnis,
-                                                  Grad, (Kursberechnung.Tabelle.Cells[1, i] + ' ' + s + '°'));
+                                                  Grad, (Kursberechnung.Tabelle.Cells[1, i] + ' ' + s + 'Â°'));
                                          End;
                             End;
                 End;
@@ -193,7 +193,7 @@ end;
 procedure TWindrose.FormActivate(Sender: TObject);
 begin
 //Werte:= 0;
-Windrose.Caption:= 'Windrose für '  +
+Windrose.Caption:= 'Windrose fÃ¼r '  +
   Kursberechnung.UrOrt.Caption+'  '+Kursberechnung.UrBreite.Caption+' / '
   +Kursberechnung.UrLaenge.Caption;
 {Kursberechnung.Orte.First;
@@ -201,7 +201,7 @@ While not Kursberechnung.Orte.Eof do
       Begin
       Werte:= Werte + 1;
       Gradfeld[1,Werte]:= Kursberechnung.Orte['g'];
-      If Kursberechnung.Orte['x'] = 'ü'
+      If Kursberechnung.Orte['x'] = 'Ã¼'
          Then Gradfeld[2,Werte]:= 1
          Else Gradfeld[2,Werte]:= 0;
       Ortfeld[Werte]:= Kursberechnung.Orte['Ort'];
@@ -240,7 +240,7 @@ For i:=1 to 360 do
          BewegeUm(Abstand1*z);
          End;
 For i:=1 to Kursberechnung.Tabelle.RowCount - 1 do
-    If Kursberechnung.Tabelle.Cells[13,i] = Auswahl   // wert von 'ü'
+    If Kursberechnung.Tabelle.Cells[13,i] = Auswahl   // wert von 'Ã¼'
        Then Begin
             Val (Kursberechnung.Komma(Kursberechnung.Tabelle.Cells [12, i]), Grad, Code);
             If code = 0
@@ -255,7 +255,7 @@ For i:=1 to Kursberechnung.Tabelle.RowCount - 1 do
                          DreheBis(Grad);
                          Str(Grad:0:2 , s);
                          Schreibe(Breite/2*z + Rand, Breite/2*z + Rand, (Breite/2 - Abstand2 - 5)*z,
-                                  Grad, (Kursberechnung.Tabelle.Cells[1, i] + ' ' + s + '°'));
+                                  Grad, (Kursberechnung.Tabelle.Cells[1, i] + ' ' + s + 'Â°'));
                          End;
             End;
 end;

@@ -42,7 +42,7 @@ uses KursDDE00002, KursDDE00001;
 procedure TDruck.FormShow(Sender: TObject);
 Var i: Integer;
 begin
-Label1.Caption:= 'Gesamtanzahl der druckbaren Bl‰tter: '
+Label1.Caption:= 'Gesamtanzahl der druckbaren Bl√§tter: '
                  + IntToStr(Druckvorschau.DBlattAnz) ;
 Box.Items.Clear;
 Label2.Caption:= '';

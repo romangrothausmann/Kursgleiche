@@ -68,7 +68,7 @@ object Sucheform: TSucheform
       'Nummer'
       'Ort'
       'geogr. Breite'
-      'geogr. L‰nge'
+      'geogr. L√§nge'
       'Land'
       'Besonderheit'
     )
@@ -79,7 +79,7 @@ object Sucheform: TSucheform
     Top = 44
     Width = 193
     Height = 17
-    Caption = 'Groﬂ- und Kleinschreibung beachten'
+    Caption = 'Gro√ü- und Kleinschreibung beachten'
     TabOrder = 3
   end
   object Button1: TButton

@@ -9,7 +9,7 @@ uses
   ExtCtrls, Menus, StdCtrls, Printers, ComCtrls, PrintersDlgs;
 
 Const cBreite = 1000;
-      Auswahl = 'ü';
+      Auswahl = 'Ã¼';
       //cMaxFaktor = 900;
       cAnfFak = 65;
       cAbstand = 2;
@@ -200,9 +200,9 @@ Procedure ZeichneBlatt(Canvas: TCanvas);
    Procedure ZeichneTitel;
    begin
    Canvas.Font.Height:= TitelSize;
-   Canvas.TextOut((Breite - LRand -RRand - Canvas.TextWidth('Ortsdaten für ' + Kursberechnung.UrOrt.Caption+
+   Canvas.TextOut((Breite - LRand -RRand - Canvas.TextWidth('Ortsdaten fÃ¼r ' + Kursberechnung.UrOrt.Caption+
                    '  '+Kursberechnung.UrBreite.Caption+' / '+Kursberechnung.UrLaenge.Caption))
-                   Div 2, ORand, 'Ortsdaten für ' + Kursberechnung.UrOrt.Caption+
+                   Div 2, ORand, 'Ortsdaten fÃ¼r ' + Kursberechnung.UrOrt.Caption+
                    '  '+Kursberechnung.UrBreite.Caption+' / '+Kursberechnung.UrLaenge.Caption);
    End;
 

@@ -61,7 +61,7 @@ object Kursberechnung: TKursberechnung
       Height = 13
       Top = 34
       Width = 78
-      Caption = 'geogr. Länge'
+      Caption = 'geogr. LÃ¤nge'
       ParentColor = False
     end
     object UrOrt: TLabel
@@ -107,7 +107,7 @@ object Kursberechnung: TKursberechnung
     object Image2: TImage
       Left = 4
       Height = 73
-      Hint = 'Zum Vergrößern klicken'
+      Hint = 'Zum VergrÃ¶ÃŸern klicken'
       Top = 4
       Width = 73
       Align = alClient
@@ -167,7 +167,7 @@ object Kursberechnung: TKursberechnung
         OnClick = Neu1Click
       end
       object ffnen1: TMenuItem
-        Caption = '&Öffnen'
+        Caption = '&Ã–ffnen'
         ShortCut = 16463
         OnClick = ffnen1Click
       end
@@ -232,23 +232,23 @@ object Kursberechnung: TKursberechnung
         OnClick = NeueZeile1Click
       end
       object ZeilenEinfgen1: TMenuItem
-        Caption = 'Zeilen &einfügen'
+        Caption = 'Zeilen &einfÃ¼gen'
         Enabled = False
         ShortCut = 8237
         OnClick = ZeilenEinfgen1Click
       end
       object Rckgngiglschen1: TMenuItem
-        Caption = '&Rückgängig löschen'
+        Caption = '&RÃ¼ckgÃ¤ngig lÃ¶schen'
         ShortCut = 16474
         OnClick = Rckgngiglschen1Click
       end
       object letzteZeilelschen1: TMenuItem
-        Caption = 'Letzte Zeile &löschen'
+        Caption = 'Letzte Zeile &lÃ¶schen'
         ShortCut = 8238
         OnClick = letzteZeilelschen1Click
       end
       object Speicherlschen1: TMenuItem
-        Caption = 'S&peicher löschen'
+        Caption = 'S&peicher lÃ¶schen'
         ShortCut = 16460
         OnClick = Speicherlschen1Click
       end
@@ -289,7 +289,7 @@ object Kursberechnung: TKursberechnung
     end
   end
   object offnen: TOpenDialog
-    Title = 'Tabelle öffnen'
+    Title = 'Tabelle Ã¶ffnen'
     Filter = 'Kurs Dateien (*.krs)|*.krs|CSV Dateien (*.csv)|*.csv|Alle Dateien (*.*)|*.*'
     left = 224
     top = 208
@@ -308,7 +308,7 @@ object Kursberechnung: TKursberechnung
       OnClick = Zeilekopieren1Click
     end
     object DieseZeilelschen1: TMenuItem
-      Caption = 'Diese Zeile &löschen'
+      Caption = 'Diese Zeile &lÃ¶schen'
       OnClick = DieseZeilelschen1Click
     end
   end

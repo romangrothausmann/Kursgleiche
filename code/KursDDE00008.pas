@@ -72,7 +72,7 @@ Begin
 Result:= False;
 If Code <> 0
    Then Begin
-        ShowMessage('Sie dürfen nur ganze Zahlen eingeben!');
+        ShowMessage('Sie dÃ¼rfen nur ganze Zahlen eingeben!');
         result:= True;
         End;
 End;

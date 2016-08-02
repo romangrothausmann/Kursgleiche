@@ -83,7 +83,7 @@ object Formatierung: TFormatierung
     Top = 260
     Width = 47
     Height = 13
-    Caption = 'Titelgröße'
+    Caption = 'TitelgrÃ¶ÃŸe'
   end
   object Label11: TLabel
     Left = 20

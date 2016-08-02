@@ -74,7 +74,7 @@ object Druck: TDruck
     Top = 40
     Width = 129
     Height = 17
-    Caption = 'alle Bl‰tter drucken'
+    Caption = 'alle Bl√§tter drucken'
     TabOrder = 1
     OnClick = CheckBox1Click
   end
@@ -83,7 +83,7 @@ object Druck: TDruck
     Top = 88
     Width = 161
     Height = 17
-    Caption = 'ausgew‰hlte Bl‰tter drucken'
+    Caption = 'ausgew√§hlte Bl√§tter drucken'
     Checked = True
     TabOrder = 2
     TabStop = True

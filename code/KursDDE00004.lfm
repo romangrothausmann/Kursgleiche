@@ -31,7 +31,7 @@ object Bilder: TBilder
       Top = 3
       Width = 490
       Height = 490
-      Hint = 'Zum Schlieﬂen klicken'
+      Hint = 'Zum Schlie√üen klicken'
       Align = alClient
       AutoSize = True
       Center = True
