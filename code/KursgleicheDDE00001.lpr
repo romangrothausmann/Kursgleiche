@@ -4,6 +4,7 @@ program KursgleicheDDE00001;
 
 uses
   Forms, Interfaces,
+  tachartlazaruspkg, // segfaults without if TChart ist used!!!
   KursDDE00001 in 'KursDDE00001.pas' {Kursberechnung},
   KursDDE00003 in 'KursDDE00003.pas' {Film},
   KursDDE00005 in 'KursDDE00005.pas' {Windrose},
