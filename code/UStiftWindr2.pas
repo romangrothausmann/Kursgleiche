@@ -4,7 +4,9 @@ unit UStiftWindr2;
 
 interface
 
-Uses graphics, Forms;
+Uses graphics,
+  vclutils, // from RXfpc (http://wiki.freepascal.org/RXfpc) for: RotateLabel
+  Forms;
 
 Type
  TStiftwindr2 = class(TObject)
@@ -94,7 +96,7 @@ If (0 < a) And (a < 179)
   DreheBis(a - 90);
   BewegeUm(Ort.TextHeight(S) - 2);
   DreheBis(a);
-//  Ort.RotateLabel(x, y, s, (90 - Round(w)));
+  RotateLabel(Ort, x, y, s, (90 - Round(w)));
   End
   Else
   Begin
@@ -103,7 +105,7 @@ If (0 < a) And (a < 179)
   DreheBis(a + 90);
   BewegeUm(Ort.TextHeight(S) - 2);
   DreheBis(a - 180);
-//  Ort.RotateLabel(x, y, s, (90 - Round(w)));
+  RotateLabel(Ort, x, y, s, (90 - Round(w)));
   End;
 End;
 

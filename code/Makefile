@@ -9,7 +9,15 @@ all : KursgleicheDDE00001
 clean :
 	-rm -v *.lps *.compiled *.o *.ppu *.bak *.or KursgleicheDDE00001
 #	-rm -v Kursdatei.ico Kursdreieck*.bmp Kursgleiche.avi
+	-rm -rv RXfpc/
 
+
+$(HOME)/.lazarus/ :
+	lazarus # just hit "Start IDE" to init lazarus and then quit
+
+RX%/ RX%/vclutils.pas : | $(HOME)/.lazarus/	
+	svn co https://lazarus-ccr.svn.sourceforge.net/svnroot/lazarus-ccr/components/rx/trunk/ RXfpc # git seems out of date: https://github.com/fpc-svn/lazarus-ccr/tree/master/components/rx/trunk
+	lazbuild RX$*/rxnew.lpk # needs $(HOME)/.lazarus/
 
 ## dep on parent-dir causes inf. recursion, needs MF in parent-dir
 # %.ico : ../KursgleicheIMGs/%.ico
@@ -36,6 +44,10 @@ KursDDE00010.pas \
 KursDDE00011.pas \
  : %.pas : %.lfm # grep -l -F '{$R *.lfm}' *.pas | sed 's/$/ \\/g'
 	test -e $@ # there must be a rule or deps will not be tested!
+
+UStiftWindr2.pas : RXfpc/vclutils.pas
+	test -e $@ # fail if missing
+	touch $@ # just to cause rebuild of KursgleicheDDE00001
 
 ## *.lpi contains project dependencies:
 KursgleicheDDE00001 : \

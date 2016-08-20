@@ -31,7 +31,7 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
         <PackageName Value="TAChartLazarusPkg"/>
       </Item1>
@@ -41,6 +41,9 @@
       <Item3>
         <PackageName Value="LCL"/>
       </Item3>
+      <Item4>
+        <PackageName Value="rxnew"/>
+      </Item4>
     </RequiredPackages>
     <Units Count="13">
       <Unit0>
