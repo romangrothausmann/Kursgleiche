@@ -59,6 +59,7 @@ object Windrose: TWindrose
       Title.Text.Strings = (
         'TChart'
       )
+      OnAfterDraw = Chart1AfterDraw
       OnMouseDown = Chart1MouseDown
       OnMouseMove = Chart1MouseMove
       OnMouseUp = Chart1MouseUp
@@ -105,6 +106,7 @@ object Windrose: TWindrose
       Title.Text.Strings = (
         'TChart'
       )
+      OnAfterDraw = Chart2AfterDraw
       Color = clWhite
       object Series2: TLineSeries
         Marks.Visible = False

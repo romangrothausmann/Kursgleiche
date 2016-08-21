@@ -8,7 +8,7 @@ interface
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, UStiftWindr2, TAGraph, StdCtrls, Menus,
-  TASeries, Clipbrd, ComCtrls, Printers, PrintersDlgs;
+  TASeries, Clipbrd, ComCtrls, Printers, PrintersDlgs, TADrawUtils;
 
 const Breite  = 500;
       Abstand1= 10;
@@ -47,9 +47,9 @@ type
     N3: TMenuItem;
     Druckereinstellungen1: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    procedure Series1AfterDrawValues(Sender: TObject);
+    procedure Chart1AfterDraw(ASender: TChart; ADrawer: IChartDrawer);
     procedure FormActivate(Sender: TObject);
-    procedure Series2AfterDrawValues(Sender: TObject);
+    procedure Chart2AfterDraw(ASender: TChart; ADrawer: IChartDrawer);
     procedure Chart1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure Chart1MouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -185,7 +185,7 @@ If (EndPunkt.x<>Ursprung.x) Or (EndPunkt.y<>Ursprung.y)
        End;
 End;
 
-procedure TWindrose.Series1AfterDrawValues(Sender: TObject);
+procedure TWindrose.Chart1AfterDraw(ASender: TChart; ADrawer: IChartDrawer);
 begin
 Zeichnevergr(UrsprungG,EndpunktG);
 end;
@@ -211,7 +211,7 @@ Kursberechnung.Orte.Locate('Ort',Kursberechnung.AktuOrt, []); }
 Chart1.Refresh;
 end;
 
-procedure TWindrose.Series2AfterDrawValues(Sender: TObject);
+procedure TWindrose.Chart2AfterDraw(ASender: TChart; ADrawer: IChartDrawer);
 Var i, Code: Integer;
     s: String;
     Grad: real;
