@@ -1,6 +1,8 @@
 object Zoominfo: TZoominfo
   Left = 235
+  Height = 233
   Top = 118
+  Width = 241
   AutoSize = True
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
@@ -9,44 +11,30 @@ object Zoominfo: TZoominfo
   ClientHeight = 233
   ClientWidth = 241
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  Position = poScreenCenter
   OnHide = FormHide
-  PixelsPerInch = 96
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
   object Memo1: TMemo
+    Cursor = crArrow
     Left = 0
+    Height = 233
     Top = 0
     Width = 241
-    Height = 233
-    Cursor = crArrow
     Color = clBtnFace
-    Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
-    Font.Style = []
     Lines.Strings = (
       'Informationen zum Zoomen'
       ''
-      'Durch Ziehen eines Rechtecks mit der linken '
-      'Maustaste wird der neue, zu vergrößernde '
-      'Bereich festgelgt. Nach dem Loslassen der Taste '
-      'erscheint der vergrößerte Bildausschnitt. Der '
-      'Vorgang lässt sich wärend des Ziehens des '
-      'Rechtecks durch Drücken der rechten Maustaste '
-      'abbrechen. '
+      'Durch Ziehen eines Rechtecks mit der linken Maustaste wird der neue, zu vergrößernde Bereich festgelegt. Nach dem Loslassen der Taste erscheint der vergrößerte Bildausschnitt. Der Vorgang lässt sich wärend des Ziehens des Rechtecks durch Drücken der rechten Maustaste abbrechen.'
       ''
-      'Wenn nur die rechte Maustaste gedrücktgehalten '
-      'wird, lässt sich der Bildausschnitt verschieben.'
+      'Wenn nur die rechte Maustaste gedrücktgehalten wird, lässt sich der Bildausschnitt verschieben.'
       ''
-      'Drückt man dabei noch die linke Maustaste, so '
-      'kann man stufenlos zoomen, indem man die '
-      'Maus bei gedrückten Tasten hoch und runter '
-      'schiebt.'
+      'Drückt man dabei noch die linke Maustaste, so kann man stufenlos zoomen, indem man die Maus bei gedrückten Tasten hoch und runter schiebt.'
     )
     ParentFont = False
     ReadOnly = True
