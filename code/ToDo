@@ -1,0 +1,22 @@
+ToDo:
+
+
+- correct zoom/pan interaction (KursDDE00005.pas): in Delphi (ssRight in Shift) seems to have been a check if RMB was pressed, Lazarus seems to regard ssRight like ssShift, i.e. Shift pressed
+
+- adjust layout and alignment of GUI components
+
+- use SVG drawer as exporter
+
+- make intro video work
+
+
+Done:
+
+- moved drawing event
+
+- TChart bug
+
+- ported to Lazarus
+
+- gittized Delphi versions
+
