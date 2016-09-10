@@ -8,7 +8,7 @@ interface
 uses
   LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, UStiftWindr2, TAGraph, StdCtrls, Menus,
-  TASeries, Clipbrd, ComCtrls, Printers, PrintersDlgs, TADrawUtils;
+  TASeries, Clipbrd, ComCtrls, Printers, PrintersDlgs, TADrawerSVG, TADrawUtils;
 
 const Breite  = 500;
       Abstand1= 10;
@@ -24,6 +24,8 @@ type
   { TWindrose }
 
   TWindrose = class(TForm)
+    SVGexport: TMenuItem;
+    line: TMenuItem;
     Panel1: TPanel;
     MainMenu1: TMainMenu;
     Drucken1: TMenuItem;
@@ -59,6 +61,7 @@ type
     procedure gesamteWindrose1Click(Sender: TObject);
     procedure Fensterausschnitt1Click(Sender: TObject);
     procedure Einszueins1Click(Sender: TObject);
+    procedure SVGexportClick(Sender: TObject);
     procedure Zoominfo1Click(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure Fensterausschnitt2Click(Sender: TObject);
@@ -431,6 +434,24 @@ begin
 UrsprungG:= Point(0,0);
 EndpunktG:= Point(Breite, Breite);
 Zeichnevergr(UrsprungG, EndpunktG);
+end;
+
+procedure TWindrose.SVGexportClick(Sender: TObject);
+var // from /usr/share/lazarus/components/tachart/demo/save/
+  fs: TFileStream;
+  id: IChartDrawer;
+begin
+  fs := TFileStream.Create('test.svg', fmCreate);
+  try
+     id := TSVGDrawer.Create(fs, true);
+    with Chart1 do
+      begin
+      Draw(id, Rect(0, 0, Width, Height));
+      Refresh;
+      end;
+  finally
+    fs.Free;
+  end;
 end;
 
 procedure TWindrose.Zoominfo1Click(Sender: TObject);

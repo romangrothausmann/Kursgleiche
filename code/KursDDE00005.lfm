@@ -1,7 +1,7 @@
 object Windrose: TWindrose
-  Left = 220
+  Left = 496
   Height = 529
-  Top = 264
+  Top = 299
   Width = 510
   AutoSize = True
   BorderIcons = [biSystemMenu]
@@ -137,7 +137,7 @@ object Windrose: TWindrose
     left = 32
     top = 24
     object Drucken1: TMenuItem
-      Caption = '&Drucken'
+      Caption = '&Drucken/Export'
       GroupIndex = 1
       object gesamteWindrose1: TMenuItem
         Caption = '&Gesamte Windrose'
@@ -153,6 +153,13 @@ object Windrose: TWindrose
       object Druckereinstellungen1: TMenuItem
         Caption = 'Drucker&einstellungen'
         OnClick = Druckereinstellungen1Click
+      end
+      object line: TMenuItem
+        Caption = '-'
+      end
+      object SVGexport: TMenuItem
+        Caption = 'SVG export'
+        OnClick = SVGexportClick
       end
     end
     object Kopieren1: TMenuItem
