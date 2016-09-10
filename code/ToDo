@@ -8,6 +8,9 @@ ToDo:
 - use SVG drawer as exporter
 
 - make intro video work
+-- BGRABitmap package contains TAnimatedGif http://forum.lazarus.freepascal.org/index.php?topic=24983.0 or separately: http://consume.o2switch.net/lazarus/animatedgif.zip http://consume.o2switch.net/lazarus/testgif.zip
+--- TAnimatedGif needs LCL package with gtkDef and gtkproc, which can be enabled in package manager showing contents of LCL -> fitler gtk -> tick "use unit" => needs write access and recompilation of LCL, stopped at changing write access
+-- Wile64 http://wiki.lazarus.freepascal.org/Wile64 has TGifAnim but is not maintened any more: http://forum.lazarus.freepascal.org/index.php/topic,14884.msg79328.html#msg79328
 
 
 Done:
